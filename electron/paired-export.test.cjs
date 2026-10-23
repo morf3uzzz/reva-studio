@@ -10,7 +10,8 @@ const { quickExportSettings } = require("./recording-preferences.cjs");
 
 async function fixture(t, grantOutput) {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), "reva-paired-export-"));
-  t.after(() => fs.rm(directory, { recursive: true, force: true }));
+  let exporter;
+  t.after(async () => { await exporter?.dispose(); await fs.rm(directory, { recursive: true, force: true }); });
   const ffmpeg = await findTool("ffmpeg"), ffprobe = await findTool("ffprobe");
   const source = path.join(directory, "source.mp4"), image = path.join(directory, "frame.png");
   await runProcess(ffmpeg, ["-v", "error", "-f", "lavfi", "-i", "color=c=blue:s=64x48:r=10:d=0.2", "-f", "lavfi", "-i", "sine=frequency=440:sample_rate=48000:duration=0.2", "-c:v", "libx264", "-threads", "1", "-c:a", "aac", "-shortest", source]);
@@ -18,8 +19,7 @@ async function fixture(t, grantOutput) {
   const { createProject } = await import("../src/core/model.ts");
   const project = createProject({ path: source, name: "Paired", width: 64, height: 48, duration: .2 });
   const grants = new MediaGrants(); await grants.grant(source);
-  const exporter = new Exporter({ grants: { assert: file => grants.assert(file), grant: async file => { if (grantOutput) await grantOutput(file); return grants.grant(file); } }, ffmpeg, ffprobe });
-  t.after(() => exporter.dispose());
+  exporter = new Exporter({ grants: { assert: file => grants.assert(file), grant: async file => { if (grantOutput) await grantOutput(file); return grants.grant(file); } }, ffmpeg, ffprobe });
   const options = { project, format: "mp4", codec: "both", quality: "balanced", fps: 10, width: 64, height: 48 };
   const output = path.join(directory, "result.mp4"), companion = path.join(directory, "result-hevc.mp4"), png = new Uint8Array(await fs.readFile(image));
   const start = async (extra = {}) => {
@@ -30,6 +30,69 @@ async function fixture(t, grantOutput) {
   return { directory, exporter, options, output, companion, start, ffmpeg, ffprobe };
 }
 const noTemps = async directory => assert.equal((await fs.readdir(directory)).some(name => name.startsWith(".reva-export-")), false);
+
+test("invalid staged encodings never replace the selected file or install its companion", async t => {
+  for (const damage of ["unreadable container", "wrong dimensions", "truncated duration"]) await t.test(damage, async t => {
+    const f = await fixture(t);
+    await fs.writeFile(f.output, "preserve selected original");
+    const session = await f.start();
+    const owned = f.exporter.getSession(session.id);
+    owned.child.stdin.end();
+    await owned.completion;
+    const staged = owned.outputs[0].temporary;
+    if (damage === "unreadable container") await fs.writeFile(staged, "nonempty damaged recording");
+    else await runProcess(f.ffmpeg, ["-v", "error", "-y", "-f", "lavfi", "-i", `color=c=red:s=${damage === "wrong dimensions" ? "32x24" : "64x48"}:r=10:d=${damage === "truncated duration" ? "0.1" : "0.2"}`, "-c:v", "libx264", "-threads", "1", staged]);
+    await assert.rejects(f.exporter.finish(session.id), /encoded export|decode|container/i);
+    assert.equal(await fs.readFile(f.output, "utf8"), "preserve selected original");
+    await assert.rejects(fs.stat(f.companion), { code: "ENOENT" });
+    await f.exporter.cancel(session.id);
+    await noTemps(f.directory);
+  });
+});
+
+test("partial last frames and a single GIF frame keep the renderer's frame count and bounded endpoint", async t => {
+  for (const format of ["mp4", "prores", "gif"]) for (const duration of [.01, .02]) await t.test(`${format} ${duration}s`, async t => {
+    const f = await fixture(t), project = { ...f.options.project, trimEnd: duration };
+    const session = await f.exporter.start({ ...f.options, project, format, codec: "h264", fps: 60 }, () => f.output);
+    const image = new Uint8Array(await fs.readFile(path.join(f.directory, "frame.png")));
+    const frames = Math.ceil(duration * 60);
+    for (let frame = 0; frame < frames; frame++) await f.exporter.frame(session.id, image);
+    await f.exporter.finish(session.id);
+    const data = JSON.parse(await runProcess(f.ffprobe, ["-v", "error", "-count_frames", "-select_streams", "v:0", "-show_entries", "stream=nb_read_frames,duration:format=duration", "-of", "json", f.output]));
+    assert.equal(Number(data.streams[0].nb_read_frames), frames);
+    assert.ok(Math.abs(Number(data.format.duration) - frames / 60) <= .01);
+    await noTemps(f.directory);
+  });
+});
+
+test("cancellation during encoded-file validation joins the probe and preserves the prior destination", async t => {
+  const f = await fixture(t);
+  await fs.writeFile(f.output, "preserve selected original");
+  const session = await f.start(), began = path.join(f.directory, "probe-began"), release = path.join(f.directory, "probe-release");
+  const wrapper = path.join(f.directory, "controlled-probe.cjs");
+  await fs.writeFile(wrapper, `#!/usr/bin/env node\nconst fs=require('node:fs/promises'),{spawn}=require('node:child_process');(async()=>{await fs.writeFile(${JSON.stringify(began)},'ready');while(!await fs.access(${JSON.stringify(release)}).then(()=>true,()=>false))await new Promise(r=>setTimeout(r,10));const child=spawn(${JSON.stringify(f.ffprobe)},process.argv.slice(2),{stdio:'inherit'});child.on('error',()=>process.exit(1));child.on('close',code=>process.exit(code??1));})().catch(()=>process.exit(1));\n`, { mode: 0o700 });
+  f.exporter.ffprobe = wrapper;
+  const finishing = assert.rejects(f.exporter.finish(session.id), /Export cancelled/);
+  try {
+    const deadline = Date.now() + 5000;
+    while (!await fs.access(began).then(() => true, () => false)) {
+      assert.ok(Date.now() < deadline, "The actual validation process did not start");
+      await new Promise(resolve => setTimeout(resolve, 10));
+    }
+    const cancelling = f.exporter.cancel(session.id);
+    assert.equal(f.exporter.active, true);
+    assert.equal(await fs.readFile(f.output, "utf8"), "preserve selected original");
+    await fs.writeFile(release, "release");
+    await Promise.all([finishing, cancelling]);
+    assert.equal(f.exporter.active, false);
+    assert.equal(await fs.readFile(f.output, "utf8"), "preserve selected original");
+    await assert.rejects(fs.stat(f.companion), { code: "ENOENT" });
+    await noTemps(f.directory);
+  } finally {
+    await fs.writeFile(release, "release").catch(() => {});
+    await finishing.catch(() => {});
+  }
+});
 
 test("paired file export renders once to H.264 and HEVC with identical mixed audio; clipboard resolves to H.264", async t => {
   const f = await fixture(t), session = await f.start();

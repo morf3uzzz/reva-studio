@@ -1,18 +1,18 @@
 <p align="center"><img src="branding/logo.png" width="128" alt="REVA Studio" /></p>
 <h1 align="center">REVA Studio</h1>
 <p align="center">Запись экрана и монтаж — локально на вашем Mac.</p>
-<p align="center"><a href="https://github.com/morf3uzzz/reva-studio/releases/tag/v0.1.0">Скачать</a> · <a href="README.md">English</a></p>
+<p align="center"><a href="https://github.com/morf3uzzz/reva-studio/releases/tag/v0.1.1">Скачать</a> · <a href="README.md">English</a></p>
 
 REVA Studio записывает окно, экран или область и помогает оформить ролик:
 анимированные приближения, сцены камеры, титры, курсор, музыка и маски.
 Интерфейс доступен на русском и английском.
 
-**Версия 0.1.0 — предварительная.** Реализация готова для дальнейшей проверки;
+**Версия 0.1.1 — предварительная.** Реализация готова для дальнейшей проверки;
 полная работа всех устройств и разрешений ещё не подтверждена.
 
 ## Установка
 
-1. Скачайте **Universal DMG** в [релизе](https://github.com/morf3uzzz/reva-studio/releases/tag/v0.1.0).
+1. Скачайте **Universal DMG** в [релизе](https://github.com/morf3uzzz/reva-studio/releases/tag/v0.1.1).
    Один пакет содержит Intel и Apple Silicon. Нужна macOS 14 или новее.
 2. Установите **FFmpeg и ffprobe**. Если Homebrew уже установлен:
    `brew install ffmpeg`.

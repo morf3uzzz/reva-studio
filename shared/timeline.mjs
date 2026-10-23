@@ -4,8 +4,15 @@
  * The array order is the output order; source positions do not reorder clips.
  */
 export function getSlices(project) {
+  return readSlices(project).map(slice => ({ ...slice }));
+}
+
+// Read-only queries must not clone every clip on each playback/animation tick.
+// Keep editable copies at the public boundary and observe the current input on
+// every call; caching by array identity would hide mutable import/edit callers.
+function readSlices(project) {
   if (project.slices !== undefined)
-    return project.slices.map((slice) => ({ ...slice }));
+    return project.slices;
   const sourceDuration = Math.max(
     0,
     Number.isFinite(project.duration) ? project.duration : 0,
@@ -42,7 +49,7 @@ function sliceDuration(slice) {
 }
 
 export function duration(project) {
-  return getSlices(project).reduce(
+  return readSlices(project).reduce(
     (total, slice) => total + sliceDuration(slice),
     0,
   );
@@ -53,7 +60,7 @@ export function selectSlice(
   project,
   outputSeconds,
 ) {
-  const slices = getSlices(project);
+  const slices = readSlices(project);
   if (slices.length === 0) return null;
   const total = slices.reduce(
     (total, slice) => total + sliceDuration(slice),
@@ -69,7 +76,7 @@ export function selectSlice(
     const outputEnd = outputStart + sliceDuration(slice);
     if (time < outputEnd || index === slices.length - 1)
       return {
-        slice,
+        slice: { ...slice },
         index,
         outputStart,
         outputEnd,
@@ -102,7 +109,7 @@ export function timeToOutput(
 ) {
   if (!Number.isFinite(sourceSeconds)) return null;
   let outputStart = 0;
-  for (const slice of getSlices(project)) {
+  for (const slice of readSlices(project)) {
     if (
       (sliceId === undefined || slice.id === sliceId) &&
       sourceSeconds >= slice.start &&
@@ -120,7 +127,7 @@ export function timeToOutput(
 export function sourceRangeOutputSpans(project, start, end) {
   const spans = [];
   let output = 0;
-  for (const slice of getSlices(project)) {
+  for (const slice of readSlices(project)) {
     const from = Math.max(start, slice.start), to = Math.min(end, slice.end);
     if (to > from) spans.push({ start: output + (from - slice.start) / slice.speed, end: output + (to - slice.start) / slice.speed, sliceId: slice.id });
     output += sliceDuration(slice);

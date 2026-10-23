@@ -1,4 +1,4 @@
-REVA Studio 0.1.0 — Preview
+REVA Studio 0.1.1 — Preview
 
 macOS 14 or later. Universal: Intel and Apple Silicon.
 

@@ -941,6 +941,8 @@ function buildEncoderArgs(options, output, audioTracks) {
         "-filter_complex",
         `[0:v]split[a][b];[a]palettegen=stats_mode=single:max_colors=${o.gifHighQuality ? 256 : 128}[p];[b][p]paletteuse=new=1:dither=${o.gifHighQuality ? "sierra2_4a" : "bayer:bayer_scale=3"}`,
         "-an",
+        "-final_delay",
+        String(Math.max(1, Math.round(100 / o.fps))),
         "-loop",
         o.gifLoop ? "0" : "-1",
       );
@@ -949,7 +951,9 @@ function buildEncoderArgs(options, output, audioTracks) {
       "-frames:v",
       String(o.frameCount),
       "-t",
-      String(o.duration),
+      // Renderer and encoder own the same whole-frame count. Rounding -t
+      // from the source duration can otherwise discard the partial last frame.
+      String(o.frameCount / o.fps),
       "-f",
       o.format === "gif" ? "gif" : o.format === "prores" ? "mov" : "mp4",
       outputs[index],

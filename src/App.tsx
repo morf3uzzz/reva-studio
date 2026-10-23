@@ -812,6 +812,7 @@ export default function App() {
     let id = 0,
       lastUpdate = 0,
       live = true;
+    let lastPaint: readonly unknown[] | null = null, assetRevision = 0;
     // Asset completion redraws the current project at the current source time.
     // Reuse one pending frame so a late SVG cannot revive an old preview loop.
     const requestDraw = () => {
@@ -819,6 +820,7 @@ export default function App() {
       cancelAnimationFrame(id);
       id = requestAnimationFrame(draw);
     };
+    const assetReady = () => { assetRevision++; requestDraw(); };
     const draw = () => {
       const p = projectRef.current,
         v = video.current;
@@ -860,11 +862,20 @@ export default function App() {
       const c = canvas.current,
         ctx = c?.getContext("2d");
       if (c && ctx) try {
+        // Paused media does not change on every display refresh. Keep its
+        // composed pixels until an actual input changes; export and other
+        // playback windows must not compete with repeated idle canvas/GPU work.
+        const pointer = previewPointer.current;
+        const inputs = [p, sourceTime, c, c.width, c.height, v, v?.readyState, v?.seeking,
+          camera.current, camera.current?.currentTime, camera.current?.readyState, camera.current?.seeking,
+          cameraMask.current, cameraMask.current?.currentTime, cameraMask.current?.readyState, cameraMask.current?.seeking,
+          backgroundImage.current, pointer, assetRevision];
+        if (lastPaint && inputs.every((value, index) => Object.is(value, lastPaint![index]))) { requestDraw(); return; }
         const painted = renderPreview.current(ctx, p, sourceTime, {
           socialSafeArea,
           fps: 60,
           screenAnimator: previewAnimator.current,
-          onCursorAssetReady: requestDraw,
+          onCursorAssetReady: assetReady,
           cameraMatte: previewMatte.current,
           cameraMask: cameraMask.current ?? undefined,
           placeholder: {
@@ -881,7 +892,6 @@ export default function App() {
           background: backgroundImage.current ?? undefined,
         });
         if (!painted) { requestDraw(); return; }
-        const pointer = previewPointer.current;
         if (pointer && p.mediaPath) {
           const frame = previewFrameAt(p, sourceTime, c.width, c.height, previewAnimator.current);
           const layer = previewLayerAt(frame, pointer.x * c.width, pointer.y * c.height, c.width, c.height, !!p.cameraPath && !p.appearance.cameraHidden);
@@ -898,6 +908,7 @@ export default function App() {
             ctx.fill(); ctx.stroke(); ctx.restore();
           }
         }
+        lastPaint = inputs;
         renderError.current = null;
       } catch (error) {
         const message = errorMessage(error);

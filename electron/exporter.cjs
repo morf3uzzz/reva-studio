@@ -12,7 +12,7 @@ const {
   validatePng,
   verifyProjectSources,
 } = require("./core.cjs");
-const { probe } = require("./media.cjs");
+const { probe, runProcess } = require("./media.cjs");
 const { writeCursorAudio, CursorAudioFileOwner } = require("./cursor-audio.cjs");
 const { audioTracks } = require("../shared/audio.mjs");
 const { cameraSourceOffsetSeconds } = require("../shared/camera-effects.cjs");
@@ -26,6 +26,36 @@ async function outputIdentity(file) {
   } catch (error) {
     if (error.code === "ENOENT") return null;
     throw error;
+  }
+}
+
+/** Check the encoder's actual container and decoded first frame before any
+ * selected destination changes. This bounded probe does not decode the entire
+ * export a second time; declared frame counts are checked when available. */
+async function verifyEncodedOutput(file, options, codec, ffprobe) {
+  try {
+    const data = JSON.parse(await runProcess(ffprobe, [
+      "-v", "error", "-protocol_whitelist", "file,pipe",
+      "-format_whitelist", options.format === "gif" ? "gif" : "mov",
+      "-select_streams", "v:0", "-read_intervals", "%+#1",
+      "-show_entries", "format=duration:stream=codec_name,width,height,duration,nb_frames:frame=width,height",
+      "-of", "json", file,
+    ], { maxBytes: 16384 }));
+    const video = data.streams?.[0], frame = data.frames?.[0];
+    const expectedCodec = options.format === "gif" ? "gif" : options.format === "prores" ? "prores" : codec;
+    if (!video || !frame || video.codec_name !== expectedCodec ||
+        video.width !== options.width || video.height !== options.height ||
+        frame.width !== options.width || frame.height !== options.height)
+      throw new Error("The container or decoded first frame does not match the selected codec and dimensions.");
+    const actualDuration = Number(video.duration ?? data.format?.duration);
+    // A partial final video frame and GIF's centisecond timebase can round the
+    // declared endpoint. Neither permits a missing encoded frame count.
+    const tolerance = 1 / options.fps + (options.format === "gif" ? .01 : .001);
+    if (!Number.isFinite(actualDuration) || actualDuration <= 0 || Math.abs(actualDuration - options.duration) > tolerance ||
+        (video.nb_frames !== undefined && video.nb_frames !== "N/A" && Number(video.nb_frames) !== options.frameCount))
+      throw new Error("The encoded duration or frame count does not match the edited timeline.");
+  } catch (error) {
+    throw new Error(`Could not validate the encoded export: ${error.message}`, { cause: error });
   }
 }
 
@@ -210,6 +240,9 @@ class Exporter {
           for (const item of s.outputs) {
             const stat = await fs.stat(item.temporary);
             if (!stat.isFile() || stat.size === 0) throw new Error("FFmpeg did not produce every selected output file.");
+            if (s.cancelled) throw new Error("Export cancelled.");
+            await verifyEncodedOutput(item.temporary, s.options, item.codec, this.ffprobe);
+            if (s.cancelled) throw new Error("Export cancelled.");
             if ((await outputIdentity(item.output)) !== item.identity) throw new Error("The export destination changed while exporting. Choose a new destination.");
           }
           try {

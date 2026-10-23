@@ -1,7 +1,7 @@
 {
   "name": "reva-studio",
   "productName": "REVA Studio",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "A local-first macOS screen recorder and video editor.",
   "type": "module",
@@ -26,6 +26,7 @@
     "test:encoding": "node scripts/verify-encoding.mjs",
     "test:web-audio": "electron tests/mixed-audio.browser.cjs",
     "test:editor-ui": "electron tests/editor-controls.browser.cjs",
+    "test:preview-ui": "electron tests/preview-invalidation.browser.cjs",
     "test:gpu": "electron tests/frame-processing.gpu.cjs",
     "test:recorder-ui": "electron tests/recorder-surfaces.browser.cjs"
   },

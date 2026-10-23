@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.1 — 2026-10-23
+
+- Reuse paused preview pixels until media, project, pointer, canvas or cursor artwork changes.
+- Avoid copying every clip during read-only timeline clock queries; editable slice results remain detached.
+- Keep the renderer's final partial frame in MP4/ProRes/GIF exports, and set the GIF's final-frame delay explicitly.
+- Validate the encoded container, first decoded frame, codec, dimensions, duration and available frame count before replacing any selected destination.
+- Preserve prior files when encoding validation fails or is cancelled, including paired H.264/HEVC output.
+
 ## 0.1.0 — 2026-10-23
 
 First public preview of REVA Studio for macOS.

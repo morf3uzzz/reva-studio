@@ -130,6 +130,20 @@ test("cut boundaries select the next slice and each valid output frame round-tri
   }
 });
 
+test("timeline queries keep editable copies detached and observe mutable source changes", () => {
+  const project = example();
+  const editable = getSlices(project);
+  const selected = selectSlice(project, 2)!;
+  editable[0].end = 1;
+  selected.slice.speed = 4;
+  assert.equal(project.slices![0].end, 2);
+  assert.equal(project.slices![1].speed, 2);
+  project.slices![1].speed = 1;
+  assert.equal(duration(project), 5);
+  assert.equal(outputToSource(project, 3), 4);
+  assert.equal(timeToOutput(project, 4), 3);
+});
+
 test("source gaps are absent unless callers explicitly request a nearest-boundary seek", () => {
   const project = example();
   assert.equal(timeToOutput(project, 2.25), null);

@@ -4,7 +4,7 @@
 <h1 align="center">REVA Studio</h1>
 <p align="center">Record clearly. Edit beautifully. Keep it local.</p>
 <p align="center">
-  <a href="https://github.com/morf3uzzz/reva-studio/releases/tag/v0.1.0">Download for macOS</a> ·
+  <a href="https://github.com/morf3uzzz/reva-studio/releases/tag/v0.1.1">Download for macOS</a> ·
   <a href="README.ru.md">Русский</a> ·
   <a href="docs/STATUS.md">Release status</a> ·
   <a href="https://github.com/morf3uzzz/reva-studio/issues">Report a bug</a>
@@ -14,15 +14,15 @@ REVA Studio is an independent, local-first screen recorder and video editor for
 macOS. Capture a window, display or region, then shape the result with animated
 zooms, camera scenes, captions, cursor effects and a shared audio mix.
 
-**0.1.0 is a preview release.** Some hardware and permission-dependent paths
+**0.1.1 is a preview release.** Some hardware and permission-dependent paths
 still need broader testing. See [known limitations](docs/STATUS.md).
 
 ## Download and install
 
 | Download | Mac | Requires |
 | --- | --- | --- |
-| [Universal DMG](https://github.com/morf3uzzz/reva-studio/releases/download/v0.1.0/REVA-Studio-0.1.0-macOS-universal.dmg) | Intel and Apple Silicon | macOS 14+ |
-| [Universal ZIP](https://github.com/morf3uzzz/reva-studio/releases/download/v0.1.0/REVA-Studio-0.1.0-macOS-universal.zip) | Intel and Apple Silicon | macOS 14+ |
+| [Universal DMG](https://github.com/morf3uzzz/reva-studio/releases/download/v0.1.1/REVA-Studio-0.1.1-macOS-universal.dmg) | Intel and Apple Silicon | macOS 14+ |
+| [Universal ZIP](https://github.com/morf3uzzz/reva-studio/releases/download/v0.1.1/REVA-Studio-0.1.1-macOS-universal.zip) | Intel and Apple Silicon | macOS 14+ |
 
 1. Install **FFmpeg and ffprobe**. With an existing [Homebrew](https://brew.sh)
    installation: `brew install ffmpeg`.

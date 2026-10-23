@@ -1,11 +1,21 @@
-# 0.1.0 preview status
+# 0.1.1 preview status
 
 This is an early independent application. Passing automated checks does not
 establish complete hardware, UI or algorithm parity with another product.
 
 ## Verified for this release
 
-- TypeScript/Vite build; 481 automated editor/backend tests: 480 passed,
+- Real App paused-preview regression covers idle reuse, hover/leave, appearance
+  edits, media seek/decode, canvas resize and late SVG cursor completion.
+- Owned cut/zoom fixtures exercise Focused/Smooth motion, .5×/2× clip speeds,
+  camera layout changes and blur. Actual 30/60fps exports have ordered frame
+  timestamps and fully decode. This does not establish uninterrupted 4K60 playback.
+- Export regressions reject damaged, mis-sized and shortened staged media before
+  replacing selected files. Cancellation joins the validation process. Actual
+  H.264/HEVC software and VideoToolbox encoding passed; ProRes/GIF and fractional
+  final-frame tests also passed.
+
+- TypeScript/Vite build; 494 automated editor/backend tests: 493 passed,
   one optional Vision hardware integration check skipped.
 - Native permission response parsing, including the actual CoreGraphics
   `keyboard: "not-granted"` response. The absence of Input Monitoring does not
@@ -50,6 +60,11 @@ interrupted-recording recovery. Those used private synthetic fixtures; user
 recordings and research screenshots are not part of this repository.
 
 ## Remaining verification and limitations
+
+- Preview uses Chromium video seeks at removed source gaps. Decoder preparation
+  can briefly retain the prior image; a native look-ahead decoder pool and direct
+  GPU-to-encoder frame transfer are not implemented. Long animation histories
+  retain cached transforms, so memory grows with viewed duration.
 
 - Ad hoc rebuilds change the macOS code identity. A prior privacy grant may no
   longer match; grant access to the installed copy in System Settings and restart
