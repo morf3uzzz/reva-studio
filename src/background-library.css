@@ -1,0 +1,31 @@
+.background-library { border-top: 1px solid #ffffff14; margin-top: 14px; padding-top: 12px; min-width: 0; }
+.background-library-tabs { display: flex; gap: 3px; border-radius: 7px; background: #121215; padding: 3px; margin-bottom: 12px; }
+.background-library-tabs button { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 7px; border: 0; background: transparent; border-radius: 5px; color: #a5a5ad; font-size: 11px; }
+.background-library-tabs button[aria-selected=true] { background: #37343f; color: #eee8ff; }
+.background-library-actions { display: flex; gap: 6px; margin-bottom: 12px; }
+.background-library-actions button { flex: 1; font-size: 10px; padding: 7px; }
+.background-library .panel-note { color: #97979f; font-size: 10px; line-height: 1.6; }
+.background-favorite-grid, .background-photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.background-favorite, .background-photo { min-width: 0; border-radius: 7px; border: 1px solid #ffffff13; overflow: hidden; background: #ffffff04; }
+.background-favorite.selected { border-color: #ba9dff; }
+.background-favorite-image, .background-photo-image { position: relative; display: block; border: 0; border-radius: 0; padding: 0; width: 100%; aspect-ratio: 16/10; background: #141418; overflow: hidden; color: #aaaab2; font-size: 10px; }
+.background-favorite-image img, .background-photo-image img { width: 100%; height: 100%; object-fit: cover; }
+.background-favorite-image:hover img, .background-photo-image:hover img { filter: brightness(1.1); }
+.background-photo-image > span { position: absolute; inset: 0; display: grid; place-items: center; background: #0008; color: white; font-size: 10px; }
+.background-favorite-name { padding: 6px 7px 0; font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #ceced5; }
+.background-favorite-controls { display: flex; justify-content: flex-end; gap: 4px; padding: 3px 4px; }
+.background-favorite-controls .icon-button { height: 24px; width: 24px; }
+.background-attribution { font-size: 9px; color: #9898a0; padding: 5px 6px; line-height: 1.5; overflow-wrap: anywhere; }
+.background-attribution button { color: #bca7ed; background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
+.background-attribution button:hover { text-decoration: underline; }
+.background-access-key { display: flex; align-items: center; gap: 6px; background: #141417; border: 1px solid #ffffff22; border-radius: 6px; color: #aaaab3; padding: 4px 7px; }
+.background-access-key input { flex: 1; width: 0; border: 0; outline: 0; background: transparent; color: #dedee7; font-size: 10px; padding: 6px 0; }
+.background-access-key .icon-button { width: 20px; height: 20px; }
+.background-search { display: flex; gap: 5px; margin: 10px 0; }
+.background-search > input { min-width: 0; flex: 1; background: #141417; border: 1px solid #ffffff22; border-radius: 6px; color: #dedee7; padding: 7px; font-size: 11px; }
+.background-search .outline-button { padding: 7px 10px; }
+.background-search-total { color: #909098; font-size: 9px; margin: 8px 0; }
+.background-save-photo { display: flex; gap: 4px; align-items: center; justify-content: center; width: 100%; background: #ffffff05; border: 0; border-top: 1px solid #ffffff0c; color: #b6a1e6; font-size: 9px; padding: 6px; }
+.background-search-pages { display: flex; justify-content: space-between; align-items: center; color: #a4a4ad; font-size: 10px; margin-top: 9px; }
+.background-library-issue { color: #ceb47c; font-size: 10px; line-height: 1.5; overflow-wrap: anywhere; }
+.background-current-attribution { border-top: 1px solid #ffffff12; margin-top: 10px; padding-top: 3px; }

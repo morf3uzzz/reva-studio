@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "license": "MIT",
+  "author": "REVA Studio contributors",
+  "default": "reva/violet-flow.svg",
+  "entries": [
+    {
+      "name": "Violet Flow",
+      "category": "REVA",
+      "file": "reva/violet-flow.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 963,
+      "sha256": "dd5a9879babb9086429f1a2552e3cd25bf9daaec8a9dd1eced287d19bd0f30e6"
+    },
+    {
+      "name": "Blue Hour",
+      "category": "REVA",
+      "file": "reva/blue-hour.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 963,
+      "sha256": "437b4f39fa341b2b0c25d7ffb546805f3821d4f0e0555f1ffa1751b233922aee"
+    },
+    {
+      "name": "Mint Circuit",
+      "category": "REVA",
+      "file": "reva/mint-circuit.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 963,
+      "sha256": "5a9c06198512a5f662fdb125b2b26788a71186d70ef2e482502db40b6feb9778"
+    },
+    {
+      "name": "Rose Quartz",
+      "category": "REVA",
+      "file": "reva/rose-quartz.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 963,
+      "sha256": "08b813b0e49c68987bdc7bb2685aff7bce04016533d12011cfea15dcb86e0a7f"
+    },
+    {
+      "name": "Amber Glass",
+      "category": "REVA",
+      "file": "reva/amber-glass.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 963,
+      "sha256": "3a72457d40b9d13b16d5a3cef7b9949a55f126839ef509f00e0e838acaf585c8"
+    },
+    {
+      "name": "Deep Indigo",
+      "category": "REVA",
+      "file": "reva/deep-indigo.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 963,
+      "sha256": "c9644727ca29ada379e0b4a8c18f33ae633f9ef6bfec4820bb5b9b75665b45aa"
+    },
+    {
+      "name": "Polar Light",
+      "category": "Aurora",
+      "file": "aurora/polar-light.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 963,
+      "sha256": "e2b14d499ebd2f31437ec8ff4f33a8f52e6db36e1d2cb672b8f760744c762b12"
+    },
+    {
+      "name": "Electric Iris",
+      "category": "Aurora",
+      "file": "aurora/electric-iris.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 963,
+      "sha256": "2a2fc14fd8ab85750c07b9e0e7d9500269757d9ee61c31300cccd7a7993157f6"
+    },
+    {
+      "name": "Ocean Current",
+      "category": "Aurora",
+      "file": "aurora/ocean-current.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 963,
+      "sha256": "26656408f25515dd9c0533cdf71aa0466c8b96ff98e6f12a27e93ff67cb9647c"
+    },
+    {
+      "name": "Northern Sky",
+      "category": "Aurora",
+      "file": "aurora/northern-sky.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 963,
+      "sha256": "262c9b5a19d53b0f7ff1978cc1464d8c82b6b177c848cb7f4504cf2de9618d3f"
+    },
+    {
+      "name": "Peach Horizon",
+      "category": "Dusk",
+      "file": "dusk/peach-horizon.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 964,
+      "sha256": "ab3881dc34b6e57e93b4a0d437b91f896fd487a321cc33ac1a29735572cea85e"
+    },
+    {
+      "name": "Copper Evening",
+      "category": "Dusk",
+      "file": "dusk/copper-evening.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 964,
+      "sha256": "f5f5e142cbf311e166de830166b61ddedbd91fbe7aaa3ff4afcb295a4be1824b"
+    },
+    {
+      "name": "Lilac Sunset",
+      "category": "Dusk",
+      "file": "dusk/lilac-sunset.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 964,
+      "sha256": "67c3c6fbf6d532404a105e428e584730acea425eee738943bc43f397afd0bc45"
+    },
+    {
+      "name": "Afterglow",
+      "category": "Dusk",
+      "file": "dusk/afterglow.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 964,
+      "sha256": "3055d9132fb2c8e86cb510ec7507d0b98493ee593a58e3ccd27103711cd0d321"
+    },
+    {
+      "name": "Graphite",
+      "category": "Mono",
+      "file": "mono/graphite.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 964,
+      "sha256": "92c6f9c2ae9f5af049b0b7c1bee135fb6ce9f0ad79e989061056efd594624cb4"
+    },
+    {
+      "name": "Porcelain",
+      "category": "Mono",
+      "file": "mono/porcelain.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 964,
+      "sha256": "e156c280ea7234ad96edc570c93bfc8901befeeac74fb1860ee54914f6792c6b"
+    },
+    {
+      "name": "Silver Mist",
+      "category": "Mono",
+      "file": "mono/silver-mist.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 964,
+      "sha256": "1191ad0c5ebb5b9b403d995fda20160d9d9494b0408d457271b3bf402e2f4094"
+    },
+    {
+      "name": "Obsidian",
+      "category": "Mono",
+      "file": "mono/obsidian.svg",
+      "width": 2400,
+      "height": 1600,
+      "format": "svg",
+      "bytes": 964,
+      "sha256": "5ee56b0bc7d940b3b3a6794a1c05d0b7798325e8722a1efa62784d928de8aa0a"
+    }
+  ]
+}

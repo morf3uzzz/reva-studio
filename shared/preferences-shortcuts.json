@@ -1,0 +1,158 @@
+[
+  {
+    "id": "recordStartStop",
+    "label": "Start new Recording / Finish recording",
+    "group": "recording",
+    "defaultKeys": [
+      "Meta",
+      "Control",
+      "Enter"
+    ],
+    "clearable": true
+  },
+  {
+    "id": "pauseRecording",
+    "label": "Resume/Pause recording in progress",
+    "group": "recording",
+    "defaultKeys": [
+      "Meta",
+      "Alt",
+      "P"
+    ],
+    "clearable": true
+  },
+  {
+    "id": "restartRecording",
+    "label": "Restart recording in progress",
+    "group": "recording",
+    "defaultKeys": [
+      "Meta",
+      "Alt",
+      "Backspace"
+    ],
+    "clearable": true
+  },
+  {
+    "id": "addRecordingMarker",
+    "label": "Create recording flag",
+    "group": "recording",
+    "defaultKeys": [
+      "Meta",
+      "Alt",
+      "Control",
+      "F"
+    ],
+    "clearable": true
+  },
+  {
+    "id": "recordDisplay",
+    "label": "Record entire display",
+    "group": "recording",
+    "defaultKeys": [
+      "Meta",
+      "Alt",
+      "3"
+    ],
+    "clearable": true
+  },
+  {
+    "id": "recordWindow",
+    "label": "Record single window",
+    "group": "recording",
+    "defaultKeys": [
+      "Meta",
+      "Alt",
+      "4"
+    ],
+    "clearable": true
+  },
+  {
+    "id": "recordArea",
+    "label": "Record area",
+    "group": "recording",
+    "defaultKeys": [
+      "Meta",
+      "Alt",
+      "5"
+    ],
+    "clearable": true
+  },
+  {
+    "id": "toggleShowSpeakerNotes",
+    "label": "Show speaker notes",
+    "group": "recording",
+    "defaultKeys": [
+      "Meta",
+      "Alt",
+      "/"
+    ],
+    "clearable": true
+  },
+  {
+    "id": "toggleSpeakerNotesPrompter",
+    "label": "Start/Stop prompter in speaker notes",
+    "group": "recording",
+    "defaultKeys": [
+      "Meta",
+      "Alt",
+      "."
+    ],
+    "clearable": true
+  },
+  {
+    "id": "toggleRecordingWidget",
+    "label": "Show/Hide recording controls",
+    "group": "recording",
+    "defaultKeys": [
+      "Meta",
+      "Alt",
+      "'"
+    ],
+    "clearable": true
+  },
+  {
+    "id": "splitSliceAtCurrentTime",
+    "label": "Cut slice at current time",
+    "group": "editing",
+    "defaultKeys": [
+      "C"
+    ],
+    "clearable": false
+  },
+  {
+    "id": "rippleRemoveSlice",
+    "label": "Remove slice before previous cut",
+    "group": "editing",
+    "defaultKeys": [
+      "X"
+    ],
+    "clearable": false
+  },
+  {
+    "id": "playForwardOrIncreaseSpeed",
+    "label": "Play or increase speed",
+    "group": "editing",
+    "defaultKeys": [
+      "L"
+    ],
+    "clearable": false
+  },
+  {
+    "id": "playBackwardOrIncreaseSpeed",
+    "label": "Play backward or increase speed",
+    "group": "editing",
+    "defaultKeys": [
+      "J"
+    ],
+    "clearable": false
+  },
+  {
+    "id": "stopAndResetSpeed",
+    "label": "Play or pause",
+    "group": "editing",
+    "defaultKeys": [
+      "K"
+    ],
+    "clearable": false
+  }
+]

@@ -1,0 +1,59 @@
+html[data-surface="preferences"], html[data-surface="preferences"] body, html[data-surface="preferences"] #root { width: 100%; height: 100%; background: transparent; }
+.preferences-window { position: relative; height: 100%; display: flex; flex-direction: column; background: #29292be8; color: #f2f2f4; font-size: 13px; line-height: 1.38; user-select: none; }
+.preferences-header { flex: 0 0 auto; padding: 10px 40px; background: #343436b8; border-bottom: 1px solid #0005; -webkit-app-region: drag; }
+.preferences-tabs { display: flex; align-items: stretch; justify-content: center; gap: 4px; overflow-x: auto; }
+.preferences-tabs > button { display: flex; flex: 0 0 auto; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-width: 74px; padding: 12px; border-radius: 8px; color: #eeeef0b3; font-size: 12px; line-height: 14px; cursor: default; }
+.preferences-tabs > button[aria-selected="true"] { color: white; background: #ffffff16; box-shadow: inset 0 0 0 1px #ffffff08, 0 1px 2px #0002; }
+.preferences-tabs > button:hover { background-color: #ffffff0b; }
+.preferences-tabs > button[aria-selected="true"]:hover { background-color: #ffffff1b; }
+.preferences-scroll { min-height: 0; flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; }
+.preferences-body { width: 100%; padding: 40px; }
+.preferences-stack { display: flex; flex-direction: column; gap: 32px; }
+.preferences-row { display: flex; align-items: center; justify-content: space-between; gap: 32px; width: 100%; }
+.preferences-label { min-width: 0; flex: 1; }
+.preferences-label > div { font-weight: 500; }
+.preferences-label > p { margin: 5.7px 0 0; color: #ffffff7b; font-size: 12px; line-height: 1.42; overflow-wrap: anywhere; user-select: text; }
+.preferences-control { flex: 0 0 auto; display: flex; justify-content: flex-end; align-items: center; }
+.preferences-row.full { flex-direction: column; align-items: stretch; gap: 0; }
+.preferences-row.full > .preferences-control { display: block; margin-top: 12px; }
+.preferences-row.unavailable > .preferences-label > div { color: #ffffffa3; }
+.preferences-window button { cursor: default; }
+.preferences-window button:disabled { opacity: .38; }
+.preferences-window button:focus-visible, .preferences-window select:focus-visible, .preferences-window summary:focus-visible { outline: 2px solid #8abfff; outline-offset: 2px; }
+.preferences-button { min-height: 27px; padding: 4px 12px; border: 1px solid #ffffff0b; border-radius: 6px; background: #ffffff14; box-shadow: 0 1px 2px #0003; white-space: nowrap; font-size: 12px; }
+.preferences-button:active:not(:disabled) { background: #ffffff26; }
+.preferences-switch { position: relative; width: 40px; height: 22px; padding: 0; border-radius: 12px; background: #ffffff22; box-shadow: inset 0 0 0 1px #ffffff09; }
+.preferences-switch > span { position: absolute; width: 18px; height: 18px; left: 2px; top: 2px; border-radius: 50%; background: #e4e4e7; box-shadow: 0 1px 2px #0005; transition: transform 120ms ease; }
+.preferences-switch[aria-checked="true"] { background: #087cff; }
+.preferences-switch[aria-checked="true"] > span { transform: translateX(18px); background: white; }
+.preferences-segments { display: flex; align-items: stretch; min-height: 27px; padding: 2px; border-radius: 7px; background: #ffffff0c; border: 1px solid #ffffff10; }
+.preferences-segments > button { flex: 1; min-width: 48px; min-height: 23px; padding: 2px 11px; border-radius: 5px; font-size: 12px; white-space: nowrap; color: #ffffffaf; }
+.preferences-segments > button[aria-pressed="true"] { background: #ffffff23; box-shadow: 0 1px 2px #0004; color: white; }
+.preferences-export-panel { padding: 20px; border: 1px solid #ffffff0f; border-radius: 10px; background: #ffffff04; display: flex; flex-direction: column; gap: 18px; }
+.preferences-export-panel .preferences-row { gap: 24px; }
+.preferences-export-panel .preferences-row.full { gap: 0; }
+.preferences-export-panel select { min-width: 112px; min-height: 27px; padding: 3px 8px; border-radius: 6px; background: #48484b; border-color: #ffffff0f; font-size: 12px; }
+.preferences-export-panel .preferences-row.full > .preferences-control { margin-top: 8px; }
+.preferences-advanced > summary { color: #ffffff9c; font-size: 12px; cursor: default; }
+.preferences-advanced[open] > summary { margin-bottom: 14px; }
+.preferences-shortcut-groups { display: flex; flex-direction: column; gap: 32px; }
+.preferences-shortcut-groups h2 { margin: 0 0 16px; font-size: 13px; font-weight: 600; }
+.preferences-shortcut-list { display: flex; flex-direction: column; gap: 8px; }
+.preferences-shortcut-row { position: relative; min-height: 30px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; column-gap: 32px; }
+.preferences-shortcut-row > span { flex: 1; min-width: 0; }
+.preferences-shortcut-controls { display: flex; flex: 0 0 auto; align-items: center; gap: 8px; }
+.preferences-shortcut-key { display: flex; align-items: center; justify-content: flex-end; gap: 3px; min-width: 110px; min-height: 29px; padding: 4px 10px; border: 1px solid #ffffff10; border-radius: 6px; background: #ffffff07; font-size: 13px; }
+.preferences-shortcut-key.capturing { border-color: #69a8ff; box-shadow: 0 0 0 2px #0b7dff3a; background: #167aff12; }
+.preferences-shortcut-key > kbd { font: inherit; min-width: 12px; text-align: center; }
+.preferences-shortcut-key > small { font-size: 11px; color: #ffffff80; }
+.preferences-shortcut-reset, .preferences-shortcut-clear { display: grid; place-items: center; width: 22px; height: 24px; padding: 0; color: #ffffff7a; }
+.preferences-shortcut-reset:disabled, .preferences-shortcut-clear:disabled { visibility: hidden; }
+.preferences-shortcut-error { width: 100%; margin-top: 4px; text-align: right; color: #ffa3a3; font-size: 11px; }
+.preferences-shortcut-row.invalid .preferences-shortcut-key { border-color: #ff7979; animation: preferences-wiggle 220ms ease-in-out; }
+.preferences-loading { min-height: 160px; display: grid; place-items: center; color: #ffffff80; }
+.preferences-error { display: flex; align-items: flex-start; gap: 12px; margin-top: 24px; padding: 12px; border-radius: 8px; background: #b4444426; color: #ffbcbc; font-size: 12px; user-select: text; }
+.preferences-error > span { flex: 1; overflow-wrap: anywhere; }
+.preferences-error > button { display: grid; place-items: center; padding: 1px; color: inherit; }
+.preferences-saving { position: absolute; display: flex; align-items: center; gap: 5px; right: 12px; bottom: 7px; color: #ffffff6b; font-size: 10px; pointer-events: none; }
+@keyframes preferences-wiggle { 25%, 75% { transform: translateX(-3px); } 50% { transform: translateX(3px); } }
+@media (prefers-reduced-motion: reduce) { .preferences-switch > span { transition: none; } .preferences-shortcut-row.invalid .preferences-shortcut-key { animation: none; } }

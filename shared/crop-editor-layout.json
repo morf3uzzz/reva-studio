@@ -1,0 +1,11 @@
+{
+  "width": 960,
+  "maxHeight": 900,
+  "minWidth": 750,
+  "minHeight": 500,
+  "toolbarHeight": 64,
+  "footerHeight": 74,
+  "frameInset": 32,
+  "screenMarginX": 20,
+  "screenMarginY": 30
+}

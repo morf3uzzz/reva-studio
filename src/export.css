@@ -1,0 +1,171 @@
+.modal.export-modal {
+  width: 740px;
+  padding: 32px;
+  border: 1px solid #484848;
+  border-radius: 8px;
+  background: #191919;
+  color: #ededed;
+  box-shadow: 0 20px 80px #0009;
+}
+.modal-backdrop:has(.export-modal) {
+  backdrop-filter: none;
+  background: #0009;
+}
+.export-grid {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 32px 32px;
+}
+.export-setting > label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  margin-bottom: 12px;
+}
+.export-setting > label svg {
+  color: #a5a5a5;
+}
+.export-segments {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+.export-segments button {
+  height: 38px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: #ffffff0d;
+  color: #a3a3a3;
+  font-size: 12px;
+  white-space: nowrap;
+  padding: 0 12px;
+}
+.export-segments button:hover:not(:disabled) {
+  background: #ffffff18;
+  color: #eee;
+}
+.export-segments button.selected {
+  border-color: #ffffff8c;
+  color: #eee;
+  background: #ffffff1c;
+}
+.export-segments button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.export-setting p {
+  font-size: 12px;
+  line-height: 16px;
+  margin: 10px 0 0;
+  color: #a5a5a5;
+}
+.export-frame-rate {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 14px;
+  color: #a5a5a5;
+}
+.export-frame-rate .select-wrap {
+  width: 80px;
+}
+.export-frame-rate select {
+  height: 38px;
+  border-radius: 6px;
+  border: 1px solid #ffffff15;
+  background: #ffffff0d;
+  padding-left: 14px;
+  font-size: 12px;
+}
+.export-advanced {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  margin-top: 24px;
+  padding: 0;
+  background: none;
+  color: #a5a5a5;
+}
+.export-advanced svg {
+  transition: transform 0.15s;
+}
+.export-advanced svg.expanded {
+  transform: rotate(180deg);
+}
+.export-codec {
+  margin-top: 20px;
+}
+.export-codec > label {
+  font-size: 12px;
+  display: block;
+  margin-bottom: 10px;
+}
+.export-footer {
+  margin-top: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+}
+.export-submit > div {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-end;
+}
+.export-submit .primary-button {
+  height: 38px;
+  border-radius: 5px;
+  padding: 0 12px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.export-submit kbd {
+  font: inherit;
+  margin-left: 12px;
+  color: #ffffff90;
+}
+.export-cancel {
+  background: none;
+  padding: 8px 0;
+  color: #ddd;
+  font-size: 12px;
+}
+.export-submit > p {
+  color: #7e7e7e;
+  font-size: 10px;
+  text-align: right;
+  margin: 16px 0 -28px;
+  white-space: nowrap;
+}
+.export-modal .export-complete,
+.export-modal .export-progress {
+  min-height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.export-output-file {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 16px;
+  padding: 10px 12px;
+  margin: 6px 0;
+  border: 1px solid #ffffff16;
+  border-radius: 8px;
+}
+.export-complete .export-output-file p {
+  margin: 0;
+  text-align: left;
+}
+.export-complete .export-output-file button {
+  flex-shrink: 0;
+  margin: 0;
+}

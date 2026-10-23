@@ -1,0 +1,14 @@
+PiperSR 2× model
+PiperSR by Ben Racicot / ModelPiper (https://modelpiper.com)
+Source: https://github.com/ModelPiper/PiperSR
+Revision: 8a57d04190768bcf924ae88b59f82558f90b9a1d
+
+Model weights and graph are licensed under Creative Commons Attribution 4.0
+International (CC BY 4.0): https://creativecommons.org/licenses/by/4.0/
+See PiperSR-MODEL_LICENSE for the supplied model license and
+PiperSR-MODEL_CARD.md for the supplied model description.
+
+The model weights and graph have not been modified. REVA Studio implements
+its own CoreML inference, overlapping tiles and video processing. Enhanced
+videos are generated outputs. No upstream AGPL inference implementation is
+included or copied.

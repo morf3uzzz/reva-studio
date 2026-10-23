@@ -1,0 +1,1242 @@
+{
+  "schemaVersion": 1,
+  "license": "MIT",
+  "author": "REVA Studio contributors",
+  "sets": [
+    "macos",
+    "macos-tahoe",
+    "touch",
+    "custom-1",
+    "custom-2",
+    "custom-3",
+    "custom-4",
+    "custom-5",
+    "custom-6",
+    "custom-7",
+    "custom-8",
+    "custom-9",
+    "custom-10",
+    "custom-11",
+    "custom-12",
+    "custom-13",
+    "custom-14",
+    "custom-15",
+    "custom-16",
+    "custom-17",
+    "custom-18",
+    "custom-19",
+    "custom-20",
+    "halloween"
+  ],
+  "entries": [
+    {
+      "set": "macos",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "macos/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "macos",
+      "type": "ibeam",
+      "id": "ibeam-1",
+      "file": "macos/ibeam.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sha256": "d112df0d93c9da6e8062ae05d4a1d4a76184f288027b374b21a8a6eb74fcd7a3"
+    },
+    {
+      "set": "macos",
+      "type": "cross",
+      "id": "cross-1",
+      "file": "macos/cross.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sha256": "81779fb141744fddd7fc0bca893a318bf4218f36b51ad5a6887651dc255d5c01"
+    },
+    {
+      "set": "macos",
+      "type": "pointingHand",
+      "id": "pointingHand-1",
+      "file": "macos/pointingHand.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.5,
+        "y": 0.2
+      },
+      "sha256": "330f31ef89a9c3f4e2b26f7a15d2b44ee7881b7a999b3b7adabacdeb8308e84d"
+    },
+    {
+      "set": "macos-tahoe",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "macos-tahoe/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "7663eb7ecde7825ee36c63af5520ef35dddcf7d2afa32714d6d5d9a79bd229f0"
+    },
+    {
+      "set": "macos-tahoe",
+      "type": "ibeam",
+      "id": "ibeam-1",
+      "file": "macos-tahoe/ibeam.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sha256": "d112df0d93c9da6e8062ae05d4a1d4a76184f288027b374b21a8a6eb74fcd7a3"
+    },
+    {
+      "set": "macos-tahoe",
+      "type": "cross",
+      "id": "cross-1",
+      "file": "macos-tahoe/cross.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sha256": "81779fb141744fddd7fc0bca893a318bf4218f36b51ad5a6887651dc255d5c01"
+    },
+    {
+      "set": "macos-tahoe",
+      "type": "pointingHand",
+      "id": "pointingHand-1",
+      "file": "macos-tahoe/pointingHand.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.5,
+        "y": 0.2
+      },
+      "sha256": "330f31ef89a9c3f4e2b26f7a15d2b44ee7881b7a999b3b7adabacdeb8308e84d"
+    },
+    {
+      "set": "touch",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "touch/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sha256": "73d6fc1d918cb0ce136bf0bcb28aa337f1e38b2b6e5123d2cedd6bceab756960"
+    },
+    {
+      "set": "custom-1",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-1/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "40c0af80a0cb866edb2fcc783e56167a57ef63b98f2d440d6d58e7182d0f3055"
+    },
+    {
+      "set": "custom-1",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-1/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "69287ccd4e9cb7de718b25d018817f3af5c9b1af27d84b9cd284d723f289c2eb"
+    },
+    {
+      "set": "custom-1",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-1/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "custom-1",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-1/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "custom-2",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-2/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "69287ccd4e9cb7de718b25d018817f3af5c9b1af27d84b9cd284d723f289c2eb"
+    },
+    {
+      "set": "custom-2",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-2/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "custom-2",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-2/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "custom-2",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-2/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "7663eb7ecde7825ee36c63af5520ef35dddcf7d2afa32714d6d5d9a79bd229f0"
+    },
+    {
+      "set": "custom-3",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-3/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "custom-3",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-3/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "custom-3",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-3/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "7663eb7ecde7825ee36c63af5520ef35dddcf7d2afa32714d6d5d9a79bd229f0"
+    },
+    {
+      "set": "custom-3",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-3/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "173c30e5bec244d58273705a70ce47717872fc56f880d54f3b326a19b57c618a"
+    },
+    {
+      "set": "custom-4",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-4/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "custom-4",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-4/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "7663eb7ecde7825ee36c63af5520ef35dddcf7d2afa32714d6d5d9a79bd229f0"
+    },
+    {
+      "set": "custom-4",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-4/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "173c30e5bec244d58273705a70ce47717872fc56f880d54f3b326a19b57c618a"
+    },
+    {
+      "set": "custom-4",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-4/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "40c0af80a0cb866edb2fcc783e56167a57ef63b98f2d440d6d58e7182d0f3055"
+    },
+    {
+      "set": "custom-5",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-5/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "7663eb7ecde7825ee36c63af5520ef35dddcf7d2afa32714d6d5d9a79bd229f0"
+    },
+    {
+      "set": "custom-5",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-5/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "173c30e5bec244d58273705a70ce47717872fc56f880d54f3b326a19b57c618a"
+    },
+    {
+      "set": "custom-5",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-5/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "40c0af80a0cb866edb2fcc783e56167a57ef63b98f2d440d6d58e7182d0f3055"
+    },
+    {
+      "set": "custom-5",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-5/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "69287ccd4e9cb7de718b25d018817f3af5c9b1af27d84b9cd284d723f289c2eb"
+    },
+    {
+      "set": "custom-6",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-6/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "173c30e5bec244d58273705a70ce47717872fc56f880d54f3b326a19b57c618a"
+    },
+    {
+      "set": "custom-6",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-6/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "40c0af80a0cb866edb2fcc783e56167a57ef63b98f2d440d6d58e7182d0f3055"
+    },
+    {
+      "set": "custom-6",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-6/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "69287ccd4e9cb7de718b25d018817f3af5c9b1af27d84b9cd284d723f289c2eb"
+    },
+    {
+      "set": "custom-6",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-6/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "custom-7",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-7/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "40c0af80a0cb866edb2fcc783e56167a57ef63b98f2d440d6d58e7182d0f3055"
+    },
+    {
+      "set": "custom-7",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-7/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "69287ccd4e9cb7de718b25d018817f3af5c9b1af27d84b9cd284d723f289c2eb"
+    },
+    {
+      "set": "custom-7",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-7/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "custom-7",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-7/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "custom-8",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-8/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "69287ccd4e9cb7de718b25d018817f3af5c9b1af27d84b9cd284d723f289c2eb"
+    },
+    {
+      "set": "custom-8",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-8/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "custom-8",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-8/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "custom-8",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-8/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "7663eb7ecde7825ee36c63af5520ef35dddcf7d2afa32714d6d5d9a79bd229f0"
+    },
+    {
+      "set": "custom-9",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-9/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "custom-9",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-9/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "custom-9",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-9/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "7663eb7ecde7825ee36c63af5520ef35dddcf7d2afa32714d6d5d9a79bd229f0"
+    },
+    {
+      "set": "custom-9",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-9/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "173c30e5bec244d58273705a70ce47717872fc56f880d54f3b326a19b57c618a"
+    },
+    {
+      "set": "custom-10",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-10/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "custom-10",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-10/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "7663eb7ecde7825ee36c63af5520ef35dddcf7d2afa32714d6d5d9a79bd229f0"
+    },
+    {
+      "set": "custom-10",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-10/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "173c30e5bec244d58273705a70ce47717872fc56f880d54f3b326a19b57c618a"
+    },
+    {
+      "set": "custom-10",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-10/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "40c0af80a0cb866edb2fcc783e56167a57ef63b98f2d440d6d58e7182d0f3055"
+    },
+    {
+      "set": "custom-11",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-11/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "7663eb7ecde7825ee36c63af5520ef35dddcf7d2afa32714d6d5d9a79bd229f0"
+    },
+    {
+      "set": "custom-11",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-11/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "173c30e5bec244d58273705a70ce47717872fc56f880d54f3b326a19b57c618a"
+    },
+    {
+      "set": "custom-11",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-11/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "40c0af80a0cb866edb2fcc783e56167a57ef63b98f2d440d6d58e7182d0f3055"
+    },
+    {
+      "set": "custom-11",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-11/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "69287ccd4e9cb7de718b25d018817f3af5c9b1af27d84b9cd284d723f289c2eb"
+    },
+    {
+      "set": "custom-12",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-12/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "173c30e5bec244d58273705a70ce47717872fc56f880d54f3b326a19b57c618a"
+    },
+    {
+      "set": "custom-12",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-12/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "40c0af80a0cb866edb2fcc783e56167a57ef63b98f2d440d6d58e7182d0f3055"
+    },
+    {
+      "set": "custom-12",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-12/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "69287ccd4e9cb7de718b25d018817f3af5c9b1af27d84b9cd284d723f289c2eb"
+    },
+    {
+      "set": "custom-12",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-12/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "custom-13",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-13/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "40c0af80a0cb866edb2fcc783e56167a57ef63b98f2d440d6d58e7182d0f3055"
+    },
+    {
+      "set": "custom-13",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-13/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "69287ccd4e9cb7de718b25d018817f3af5c9b1af27d84b9cd284d723f289c2eb"
+    },
+    {
+      "set": "custom-13",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-13/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "custom-13",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-13/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "custom-14",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-14/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "69287ccd4e9cb7de718b25d018817f3af5c9b1af27d84b9cd284d723f289c2eb"
+    },
+    {
+      "set": "custom-14",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-14/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "custom-14",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-14/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "custom-14",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-14/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "7663eb7ecde7825ee36c63af5520ef35dddcf7d2afa32714d6d5d9a79bd229f0"
+    },
+    {
+      "set": "custom-15",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-15/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "custom-15",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-15/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "custom-15",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-15/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "7663eb7ecde7825ee36c63af5520ef35dddcf7d2afa32714d6d5d9a79bd229f0"
+    },
+    {
+      "set": "custom-15",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-15/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "173c30e5bec244d58273705a70ce47717872fc56f880d54f3b326a19b57c618a"
+    },
+    {
+      "set": "custom-16",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-16/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "custom-16",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-16/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "7663eb7ecde7825ee36c63af5520ef35dddcf7d2afa32714d6d5d9a79bd229f0"
+    },
+    {
+      "set": "custom-16",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-16/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "173c30e5bec244d58273705a70ce47717872fc56f880d54f3b326a19b57c618a"
+    },
+    {
+      "set": "custom-16",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-16/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "40c0af80a0cb866edb2fcc783e56167a57ef63b98f2d440d6d58e7182d0f3055"
+    },
+    {
+      "set": "custom-17",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-17/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "7663eb7ecde7825ee36c63af5520ef35dddcf7d2afa32714d6d5d9a79bd229f0"
+    },
+    {
+      "set": "custom-17",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-17/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "173c30e5bec244d58273705a70ce47717872fc56f880d54f3b326a19b57c618a"
+    },
+    {
+      "set": "custom-17",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-17/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "40c0af80a0cb866edb2fcc783e56167a57ef63b98f2d440d6d58e7182d0f3055"
+    },
+    {
+      "set": "custom-17",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-17/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "69287ccd4e9cb7de718b25d018817f3af5c9b1af27d84b9cd284d723f289c2eb"
+    },
+    {
+      "set": "custom-18",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-18/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "173c30e5bec244d58273705a70ce47717872fc56f880d54f3b326a19b57c618a"
+    },
+    {
+      "set": "custom-18",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-18/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "40c0af80a0cb866edb2fcc783e56167a57ef63b98f2d440d6d58e7182d0f3055"
+    },
+    {
+      "set": "custom-18",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-18/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "69287ccd4e9cb7de718b25d018817f3af5c9b1af27d84b9cd284d723f289c2eb"
+    },
+    {
+      "set": "custom-18",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-18/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "custom-19",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-19/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "40c0af80a0cb866edb2fcc783e56167a57ef63b98f2d440d6d58e7182d0f3055"
+    },
+    {
+      "set": "custom-19",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-19/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "69287ccd4e9cb7de718b25d018817f3af5c9b1af27d84b9cd284d723f289c2eb"
+    },
+    {
+      "set": "custom-19",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-19/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "custom-19",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-19/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "custom-20",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "custom-20/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "69287ccd4e9cb7de718b25d018817f3af5c9b1af27d84b9cd284d723f289c2eb"
+    },
+    {
+      "set": "custom-20",
+      "type": "pointer",
+      "id": "pointer-2",
+      "file": "custom-20/pointer-2.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "custom-20",
+      "type": "pointer",
+      "id": "pointer-3",
+      "file": "custom-20/pointer-3.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "ac689ddc716ad287675ca12ea82a75b27471466a5edb305315b2ca9c6ebbf6a7"
+    },
+    {
+      "set": "custom-20",
+      "type": "pointer",
+      "id": "pointer-4",
+      "file": "custom-20/pointer-4.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "7663eb7ecde7825ee36c63af5520ef35dddcf7d2afa32714d6d5d9a79bd229f0"
+    },
+    {
+      "set": "halloween",
+      "type": "pointer",
+      "id": "pointer-1",
+      "file": "halloween/pointer-1.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.04,
+        "y": 0.04
+      },
+      "sha256": "f1c0a095f64c96d4965474977a9399fae1d115bc80c89692b79908723a26d9f9"
+    },
+    {
+      "set": "halloween",
+      "type": "ibeam",
+      "id": "ibeam-1",
+      "file": "halloween/ibeam.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sha256": "d112df0d93c9da6e8062ae05d4a1d4a76184f288027b374b21a8a6eb74fcd7a3"
+    },
+    {
+      "set": "halloween",
+      "type": "cross",
+      "id": "cross-1",
+      "file": "halloween/cross.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sha256": "81779fb141744fddd7fc0bca893a318bf4218f36b51ad5a6887651dc255d5c01"
+    },
+    {
+      "set": "halloween",
+      "type": "pointingHand",
+      "id": "pointingHand-1",
+      "file": "halloween/pointingHand.svg",
+      "width": 64,
+      "height": 64,
+      "hotspot": {
+        "x": 0.5,
+        "y": 0.2
+      },
+      "sha256": "330f31ef89a9c3f4e2b26f7a15d2b44ee7881b7a999b3b7adabacdeb8308e84d"
+    }
+  ]
+}

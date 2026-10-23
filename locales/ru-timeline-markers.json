@@ -1,0 +1,12 @@
+{
+  "Recording paused": "Пауза записи",
+  "Recording pause · {duration}": "Пауза записи · {duration}",
+  "Speed up typing": "Ускорить набор текста",
+  "You are typing during this part of the recording. Speed it up using options below.": "На этом участке записи вы набираете текст. Ускорьте его с помощью настроек ниже.",
+  "Typing playback speed": "Скорость набора текста",
+  "Apply suggestion": "Применить",
+  "Apply all suggestions": "Применить все",
+  "Remove suggestion": "Убрать подсказку",
+  "This section is too close to a clip edge to split.": "Этот участок слишком близко к границе клипа для разреза.",
+  "Typing from {start} to {end}": "Набор текста с {start} до {end}"
+}

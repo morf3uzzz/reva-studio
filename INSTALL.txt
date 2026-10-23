@@ -1,0 +1,18 @@
+REVA Studio 0.1.0 — Preview
+
+macOS 14 or later. Universal: Intel and Apple Silicon.
+
+1. Install FFmpeg and ffprobe separately (for example: brew install ffmpeg).
+2. Drag REVA Studio.app into Applications.
+3. Open the app and grant permissions only for the inputs you choose to use.
+
+This preview is ad hoc signed and not Apple-notarized.
+If macOS blocks it, review the source/checksums and follow Apple's supported
+Privacy & Security > Open Anyway flow. Do not disable Gatekeeper globally.
+https://support.apple.com/en-us/102445
+
+Source, help and known limitations:
+https://github.com/morf3uzzz/reva-studio
+
+Русский: необходима macOS 14+ и отдельно установленный FFmpeg.
+Перетащите приложение в «Программы». Это предварительная версия.

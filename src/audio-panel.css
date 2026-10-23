@@ -1,0 +1,24 @@
+.audio-panel { display: grid; gap: 10px; }
+.audio-panel h3 { margin: 4px 0; }
+.audio-panel .range-field { margin: 2px 0 8px; }
+.audio-panel .panel-note { color: #9898a0; font-size: 11px; line-height: 1.55; margin: 0; }
+.audio-preset-field { display: grid; grid-template-columns: 1fr 50%; align-items: center; gap: 8px; font-size: 11px; }
+.audio-clip { background: #ffffff05; border: 1px solid #ffffff15; border-radius: 8px; padding: 10px; min-width: 0; }
+.audio-clip summary { display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-size: 11px; }
+.audio-clip summary > span { display: flex; gap: 6px; align-items: center; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.audio-clip-description { font-size: 10px; color: #96969e; padding: 5px 0 8px; }
+.audio-clip-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.audio-clip-actions > .toggle-field { margin: 0; }
+.audio-clip .outline-button { padding: 7px; font-size: 10px; }
+.audio-time-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin: 11px 0; }
+.audio-time-fields label { display: grid; gap: 5px; min-width: 0; font-size: 10px; color: #adadb5; }
+.audio-time-fields input { width: 100%; min-width: 0; background: #17171b; border: 1px solid #ffffff22; padding: 6px; border-radius: 5px; color: #dedee4; font-size: 11px; }
+.audio-library > summary { cursor: pointer; font-size: 12px; margin: 8px 0; }
+.audio-library-actions { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.audio-library-track { display: flex; gap: 6px; align-items: center; border-top: 1px solid #ffffff0d; padding: 5px 0; }
+.audio-library-track > span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; color: #b7b7bf; }
+.voiceover-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; font-size: 11px; }
+.voiceover-actions .outline-button { padding: 8px; font-size: 10px; }
+.voiceover-recording { color: #ff7f89; font-variant-numeric: tabular-nums; }
+.audio-anchor-timing{border:0;padding:0;margin:0;min-width:0}
+.audio-anchor-timing:disabled{opacity:.6}

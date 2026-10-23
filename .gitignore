@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+.cache/
+native/build/
+.DS_Store
+.env
+.env.*
+*.revastudio
+*.screenstudio
+*.log
+resources/models/PiperSR_2x.mlpackage/

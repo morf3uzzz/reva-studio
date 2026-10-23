@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>CFBundleIdentifier</key><string>com.reva.studio.capture</string>
+  <key>CFBundleName</key><string>Reva Studio Capture</string>
+  <key>CFBundleVersion</key><string>1</string>
+  <key>NSCameraUsageDescription</key><string>Record your camera as a separate video track when you enable Camera in Reva Studio.</string>
+  <key>NSCameraUseContinuityCameraDeviceType</key><true/>
+  <key>NSMicrophoneUsageDescription</key><string>Record your microphone as a separate audio track when you enable Microphone in Reva Studio.</string>
+  <key>NSScreenCaptureUsageDescription</key><string>Record the display, window, or area you select in Reva Studio.</string>
+  <key>NSSpeechRecognitionUsageDescription</key><string>Transcribe your selected recording locally when you choose Generate transcript. REVA requires on-device recognition and does not send audio to a speech service.</string>
+</dict></plist>

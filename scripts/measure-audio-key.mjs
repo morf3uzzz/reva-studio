@@ -1,0 +1,12 @@
+import fs from "node:fs/promises";
+import assert from "node:assert/strict";
+import { audioPlaybackKey, createAudioKeyCache } from "../src/core/audio-key.ts";
+const points = 200000, iterations = 60;
+const project = { mediaPath: "/fixture/screen.mp4", cameraPath: null, microphonePath: "/fixture/mic.wav", duration: 200, trimStart: 0, trimEnd: 200, speed: 1, slices: [{ id: "source", start: 0, end: 200, speed: 1, volume: 1 }], cursor: Array.from({ length: points }, (_, index) => ({ t: index / 1000, x: index % 100 / 100, y: .5, click: index % 1000 === 0 })), appearance: { volume: .7, microphoneVolume: 1, cameraVolume: 0, fadeIn: 1, fadeOut: 1, cursorSettings: { clickSound: "apple-magic-mouse", clickSoundVolume: .3 } } };
+const measure = (fn, count) => { const start = performance.now(), cpu = process.cpuUsage(); let result; for (let index = 0; index < count; index++) result = fn(project); const used = process.cpuUsage(cpu); return { elapsedMs: performance.now() - start, cpuMs: (used.user + used.system) / 1000, result }; };
+const uncached = measure(audioPlaybackKey, iterations), cachedKey = createAudioKeyCache(), cold = measure(cachedKey, 1), warm = measure(cachedKey, iterations);
+assert.equal(uncached.result, cold.result); assert.equal(cold.result, warm.result);
+const visualEdit = { ...project, slices: project.slices.map(slice => ({ ...slice, cursorHidden: true })) }; assert.equal(cachedKey(visualEdit), cold.result);
+const gainEdit = { ...project, slices: project.slices.map(slice => ({ ...slice, systemVolume: .2 })) }; assert.notEqual(cachedKey(gainEdit), cold.result);
+const timing = ({ result, ...values }) => values, report = { type: "reva-audio-key-performance", points, iterations, task: "Same immutable project evaluated across playback time ticks; click sounds enabled", baseline: timing(uncached), cachedCold: timing(cold), cachedWarm: timing(warm), processPeakRSSMiB: process.resourceUsage().maxRSS / 1024, limits: ["Synthetic timing-key task, not a frame-rate measurement", "Token usage and full browser process-family memory unmeasured"] };
+await fs.writeFile("/private/tmp/reva-audio-key-performance-20261022.json", JSON.stringify(report, null, 2)); process.stdout.write(`${JSON.stringify(report)}\n`);

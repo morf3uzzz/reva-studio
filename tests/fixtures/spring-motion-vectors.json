@@ -1,0 +1,181 @@
+{
+  "cases": [
+    {
+      "fps": 60,
+      "vectors": [
+        {
+          "frame": 54,
+          "timeMs": 900,
+          "position": 0.0,
+          "velocity": 0.0
+        },
+        {
+          "frame": 60,
+          "timeMs": 1000,
+          "position": 0.011297432974847019,
+          "velocity": 1.2759203531197214
+        },
+        {
+          "frame": 63,
+          "timeMs": 1050,
+          "position": 0.14872415383318296,
+          "velocity": 4.005516412713501
+        },
+        {
+          "frame": 66,
+          "timeMs": 1100,
+          "position": 0.3804605230218979,
+          "velocity": 5.192913897501995
+        },
+        {
+          "frame": 75,
+          "timeMs": 1250,
+          "position": 0.8526926382324481,
+          "velocity": 1.4547180797749968
+        },
+        {
+          "frame": 90,
+          "timeMs": 1500,
+          "position": 0.9865677746443723,
+          "velocity": 0.13116099687210117
+        },
+        {
+          "frame": 120,
+          "timeMs": 2000,
+          "position": 1.0,
+          "velocity": 0.0
+        },
+        {
+          "frame": 180,
+          "timeMs": 3000,
+          "position": 1.0,
+          "velocity": 0.0
+        },
+        {
+          "frame": 181,
+          "timeMs": 3016.666666666667,
+          "position": 0.9887025670251535,
+          "velocity": -1.2759203531196968
+        },
+        {
+          "frame": 186,
+          "timeMs": 3100,
+          "position": 0.7027112032921958,
+          "velocity": -4.952667358782766
+        }
+      ]
+    },
+    {
+      "fps": 30,
+      "vectors": [
+        {
+          "frame": 27,
+          "timeMs": 900,
+          "position": 0.0,
+          "velocity": 0.0
+        },
+        {
+          "frame": 30,
+          "timeMs": 1000,
+          "position": 0.04428750551366667,
+          "velocity": 2.4292865483662918
+        },
+        {
+          "frame": 33,
+          "timeMs": 1100,
+          "position": 0.48756619879969537,
+          "velocity": 5.300937325819721
+        },
+        {
+          "frame": 38,
+          "timeMs": 1266.6666666666667,
+          "position": 0.9099499776055786,
+          "velocity": 0.9388293114360051
+        },
+        {
+          "frame": 45,
+          "timeMs": 1500,
+          "position": 0.992335628253075,
+          "velocity": 0.08131677631718819
+        },
+        {
+          "frame": 60,
+          "timeMs": 2000,
+          "position": 1.0,
+          "velocity": 0.0
+        },
+        {
+          "frame": 90,
+          "timeMs": 3000,
+          "position": 1.0,
+          "velocity": 0.0
+        },
+        {
+          "frame": 91,
+          "timeMs": 3033.3333333333335,
+          "position": 0.9557124944863339,
+          "velocity": -2.429286548366278
+        },
+        {
+          "frame": 93,
+          "timeMs": 3100,
+          "position": 0.6877183294269554,
+          "velocity": -5.007847086583084
+        }
+      ]
+    },
+    {
+      "fps": 24,
+      "vectors": [
+        {
+          "frame": 24,
+          "timeMs": 1000,
+          "position": 0.06486264819441555,
+          "velocity": 2.8732947233684643
+        },
+        {
+          "frame": 26,
+          "timeMs": 1083.3333333333333,
+          "position": 0.43113360396306977,
+          "velocity": 5.269250415810002
+        },
+        {
+          "frame": 30,
+          "timeMs": 1250,
+          "position": 0.8748107761657713,
+          "velocity": 1.1435526408408436
+        },
+        {
+          "frame": 36,
+          "timeMs": 1500,
+          "position": 0.9978217749297447,
+          "velocity": 0.07793233098847838
+        },
+        {
+          "frame": 48,
+          "timeMs": 2000,
+          "position": 1.0,
+          "velocity": 0.0
+        },
+        {
+          "frame": 72,
+          "timeMs": 3000,
+          "position": 1.0,
+          "velocity": 0.0
+        },
+        {
+          "frame": 73,
+          "timeMs": 3041.6666666666665,
+          "position": 0.9351373518055837,
+          "velocity": -2.8732947233684767
+        },
+        {
+          "frame": 75,
+          "timeMs": 3125,
+          "position": 0.5688663960369303,
+          "velocity": -5.269250415810004
+        }
+      ]
+    }
+  ]
+}

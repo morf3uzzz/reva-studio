@@ -1,0 +1,16 @@
+export const AUDIO_SAMPLE_RATE: 48000;
+export const MAX_LOOP_FRAMES: number;
+export const MICROPHONE_PRESETS: readonly import("../src/core/audio.ts").MicrophonePreset[];
+export function defaultAudioSettings(): import("../src/core/audio.ts").AudioSettings;
+export function parseAudioClip(input: unknown, expectedKind?: "music" | "voiceover"): import("../src/core/audio.ts").AudioClip;
+export function parseAudioSettings(input: unknown): import("../src/core/audio.ts").AudioSettings;
+export function resolveAudioSettings(project: import("../src/core/audio.ts").AudioProject): import("../src/core/audio.ts").AudioSettings;
+export function resolveVoiceovers(project: import("../src/core/audio.ts").AudioProject): { clips: import("../src/core/audio.ts").AudioClip[]; issues: { id: string; message: string }[] };
+export function microphoneOutputMuteRanges(project: import("../src/core/audio.ts").AudioProject, resolvedClips?: import("../src/core/audio.ts").AudioClip[]): {start: number; end: number}[];
+export function microphoneOutputFilters(project: import("../src/core/audio.ts").AudioProject, resolvedClips?: import("../src/core/audio.ts").AudioClip[]): string[];
+export function microphoneFilters(preset: import("../src/core/audio.ts").MicrophonePreset): string[];
+export function atempoFilters(rate: number): string[];
+export function audioClipOutputEnd(clip: import("../src/core/audio.ts").AudioClip, outputDuration: number): number;
+export function audioClipState(clip: import("../src/core/audio.ts").AudioClip, outputTime: number, outputDuration: number): { sourceTime: number; gain: number; outputEnd: number; rate: number } | null;
+export function auxiliaryAudioFilter(clip: import("../src/core/audio.ts").AudioClip, inputLabel: string, outputLabel: string, outputDuration: number): string | null;
+export function audioTracks(project: import("../src/core/audio.ts").AudioProject, cameraSourceDelaySeconds?: number): import("../src/core/audio.ts").AudioTrackPlan[];

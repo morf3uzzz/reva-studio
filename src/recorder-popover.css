@@ -1,0 +1,47 @@
+.recorder-popover { width: 100%; height: 100%; padding: 5px; overflow-y: auto; border: 1px solid #ffffff4d; border-radius: 12px; background: #262628dc; box-shadow: inset 0 0 0 1px #0005; color: #eeeef0; user-select: none; font-size: 13px; }
+.recorder-popover button { font: inherit; cursor: default; border: 0; color: inherit; background: transparent; border-radius: 6px; }
+.recorder-popover button:focus-visible { outline: 2px solid #84baff; outline-offset: -2px; }
+.recorder-device-option { position: relative; display: flex; align-items: center; gap: 2px; width: 100%; height: 26px; padding: 0 10px 0 1px; text-align: left; }
+.recorder-device-option:hover, .recorder-menu-action:hover { background: #1265b9; color: white; }
+.recorder-menu-check { width: 22px; flex: 0 0 22px; display: grid; place-items: center; }
+.recorder-device-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.recorder-device-option small { font: 600 10px -apple-system, sans-serif; background: #ffffff19; padding: 1px 8px 2px; border-radius: 9px; margin-left: 6px; }
+.microphone-menu .recorder-device-option:not(.recorder-device-none) { height: 34px; padding-bottom: 9px; }
+.input-level-meter { position: relative; height: 4px; background: #ffffff20; border-radius: 3px; overflow: hidden; display: block; }
+.input-level-meter > span { position: absolute; inset: 0; border-radius: inherit; background: #008aff; transform-origin: left center; transition: transform 70ms linear; }
+.input-level-meter.clipping > span { background: #ff674b; }
+.recorder-device-option .input-level-meter { position: absolute; left: 26px; right: 10px; bottom: 5px; }
+.recorder-popover hr { border: 0; border-top: 1px solid #ffffff26; margin: 6px 10px; }
+.recorder-menu-toggle { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 10px; min-height: 28px; padding: 3px 9px 3px 24px; text-align: left; }
+.recorder-menu-toggle:disabled { opacity: .5; }
+.recorder-menu-toggle i { position: relative; flex: 0 0 44px; height: 20px; border-radius: 11px; background: #ffffff18; }
+.recorder-menu-toggle i::after { content: ""; position: absolute; left: 2px; top: 2px; width: 26px; height: 16px; background: #e2e2e3; border-radius: 10px; transition: left .12s; }
+.recorder-menu-toggle i.on { background: #087dff; }
+.recorder-menu-toggle i.on::after { left: 16px; background: #dfedff; }
+.recorder-menu-segment-row { display: flex; justify-content: space-between; align-items: center; min-height: 30px; padding: 2px 9px 2px 24px; gap: 10px; }
+.recorder-menu-segment-row > div { display: flex; border-radius: 6px; background: #ffffff15; overflow: hidden; flex-shrink: 0; }
+.recorder-menu-segment-row button { min-width: 34px; height: 24px; padding: 0 8px; }
+.recorder-menu-segment-row button[aria-pressed=true] { background: #087dff; color: white; }
+.recorder-popover h2 { font-size: 11px; font-weight: 650; color: #ffffff45; margin: 7px 10px 7px; }
+.recorder-menu-action { display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 10px; }
+.recorder-menu-error { display: block; width: 100%; padding: 5px 9px !important; font-size: 11px !important; text-align: left; color: #ffb5b5 !important; }
+.camera-preview-surface { position: relative; width: 100%; height: 100%; border-radius: 20px; overflow: hidden; border: 1px solid #ffffff30; background: #202024; box-shadow: inset 0 0 0 1px #0002; -webkit-app-region: drag; }
+.camera-preview-surface img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.camera-preview-message { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px; text-align: center; font-size: 12px; background: #15151b90; color: #eeeeef; }
+.camera-preview-close { position: absolute; top: 9px; left: 9px; display: grid; place-items: center; width: 24px; height: 24px; padding: 0; line-height: 0; appearance: none; border: 1px solid #ffffff30; border-radius: 50%; background: #222b; color: white; -webkit-app-region: no-drag; opacity: 0; }
+.camera-preview-close svg { display: block; width: 12px; height: 12px; stroke-width: 2; pointer-events: none; }
+.camera-preview-close:hover { background: #404047e6; }
+.camera-preview-close:focus-visible { outline: 2px solid #fff9; outline-offset: 2px; }
+.camera-preview-surface:hover .camera-preview-close, .camera-preview-close:focus-visible { opacity: 1; }
+
+.input-level-meter.unavailable { background: repeating-linear-gradient(90deg, #ffffff18 0 5px, transparent 5px 8px); }
+.recorder-microphone-status { border-top: 1px solid #ffffff22; margin: 5px 8px 0; padding: 7px 0 2px; }
+.recorder-microphone-status p { font-size: 11px; line-height: 15px; margin: 0 0 6px; color: #ffffffa8; }
+.recorder-microphone-status > div { display: flex; gap: 5px; flex-wrap: wrap; }
+.recorder-microphone-status button { background: #ffffff12; padding: 5px 7px; font-size: 11px; }
+.recorder-microphone-status button:disabled { opacity: .5; }
+.recorder-screen-status { padding: 7px 11px; }
+.recorder-screen-status h2 { margin: 0 0 10px; font-size: 13px; color: #f1f1f5; }
+.recorder-screen-status p { font-size: 12px; line-height: 17px; margin: 0 0 10px; color: #ffffffb8; }
+.recorder-screen-status > div { display: flex; flex-direction: column; gap: 6px; }
+.recorder-screen-status button { padding: 7px 9px; font-size: 12px; background: #ffffff14; }

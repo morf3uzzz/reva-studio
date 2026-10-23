@@ -1,0 +1,41 @@
+html[data-surface], html[data-surface] body, html[data-surface] #root { background: transparent; width: 100%; height: 100%; min-width: 0; min-height: 0; margin: 0; overflow: hidden; }
+.recorder-strip { width: 100%; height: 64px; display: flex; align-items: center; padding: 7px; gap: 3px; border: 1px solid #ffffff44; border-radius: 16px; background: #222329cc; box-shadow: inset 0 0 0 1px #0005; color: #f7f7fa; user-select: none; -webkit-app-region: drag; }
+.recorder-strip button { -webkit-app-region: no-drag; border: 0; background: transparent; padding: 0; border-radius: 9px; color: inherit; cursor: default; }
+.recorder-strip button:hover { background: #ffffff13; }
+.recorder-strip button:focus-visible { outline: 2px solid #afa0ff; outline-offset: -2px; }
+.recorder-strip button:disabled { color: #ffffff40; background: transparent; }
+.recorder-strip .recorder-close { width: 50px; height: 50px; flex: 0 0 50px; display: grid; place-items: center; }
+.recorder-close svg { width: 20px; height: 20px; padding: 3px; background: white; color: #2e2e35; border-radius: 50%; }
+.recorder-divider { flex: 0 0 1px; width: 1px; height: 44px; background: #ffffff16; margin: 0 6px; }
+.recorder-source-buttons { display: flex; }
+.recorder-source-buttons button { width: 56px; height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+.recorder-source-buttons svg { width: 20px; height: 20px; }
+.recorder-source-buttons span { font-size: 10px; line-height: 1; color: #ffffff80; }
+.recorder-input { min-width: 0; height: 50px; display: flex; align-items: center; gap: 9px; padding: 0 13px !important; color: #ffffff66 !important; flex: 1 1 126px; }
+.recorder-input svg { flex-shrink: 0; width: 20px; height: 20px; }
+.recorder-input span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+.recorder-input.enabled { color: #f5f5f8 !important; }
+.recorder-microphone { position: relative; }
+.recorder-microphone .input-level-meter { position: absolute; left: 6px; right: 6px; bottom: 6px; height: 3px; }
+.recorder-microphone .input-level-meter > span { background: #b7b7ba; }
+.recorder-input:nth-of-type(4) { flex-basis: 146px; }
+.recorder-folder { display: grid; place-items: center; width: 48px; height: 50px; flex: 0 0 48px; color: #ffffff80 !important; }
+.recorder-folder svg, .recorder-settings > svg:first-child { width: 20px; height: 20px; }
+.recorder-settings { display: flex; align-items: center; justify-content: center; gap: 7px; width: 60px; height: 50px; flex: 0 0 60px; color: #ffffff80 !important; }
+.recorder-preparing { display: flex; gap: 16px; align-items: center; justify-content: center; flex: 1; font-size: 14px; }
+.recorder-preparing strong { font-size: 28px; width: 30px; text-align: center; }
+.recorder-preparing button { padding: 8px 14px; background: #ffffff12; }
+.recorder-error { position: absolute; left: 62px; right: 62px; bottom: 4px; height: 16px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: #ffb4b4 !important; font-size: 10px; background: #25252d !important; }
+/* The recording widget keeps its four controls at a compact, fixed size. */
+.recorder-active { width: 296px; height: 64px; padding: 7px; gap: 0; justify-content: center; }
+.recorder-active > button { display: grid; place-items: center; width: 50px; height: 48px; flex: 0 0 50px; }
+.recorder-active > button > svg { width: 23px; height: 23px; stroke-width: 2; }
+.recorder-active .recorder-divider { height: 44px; margin: 0 8px; }
+.recorder-active .recorder-stop { display: flex; justify-content: center; gap: 10px; width: auto; flex: 1 1 auto; padding: 0 5px !important; color: #ff4c4f; min-width: 0; }
+.recorder-active .recorder-stop > svg { width: 25px; height: 25px; flex: 0 0 25px; }
+.recorder-clock { font-variant-numeric: tabular-nums; font-size: 15px; font-weight: 600; white-space: nowrap; }
+.recorder-active .recorder-error { left: 8px; right: 8px; }
+
+.recorder-microphone-label { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; gap: 2px; }
+.recorder-microphone-label > span { max-width: 100%; }
+.recorder-microphone-label small { font-size: 9px; line-height: 11px; color: #e9bb82; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }

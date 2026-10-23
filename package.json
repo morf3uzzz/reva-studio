@@ -1,0 +1,56 @@
+{
+  "name": "reva-studio",
+  "productName": "REVA Studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local-first macOS screen recorder and video editor.",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "allowScripts": {
+    "electron": true,
+    "esbuild": true
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "tsc --noEmit && vite build",
+    "build:native": "bash scripts/build-native.sh",
+    "start": "electron .",
+    "package:mac": "npm run build && npm run build:native && node scripts/package-mac.mjs",
+    "test": "node --experimental-strip-types --test tests/*.test.ts electron/*.test.cjs",
+    "test:native": "bash native/test-native.sh",
+    "typecheck": "tsc --noEmit",
+    "assets": "node scripts/generate-assets.mjs",
+    "model:fetch": "node scripts/fetch-model.mjs",
+    "prebuild": "npm run assets",
+    "release:mac": "node scripts/release-mac.mjs",
+    "test:encoding": "node scripts/verify-encoding.mjs",
+    "test:web-audio": "electron tests/mixed-audio.browser.cjs",
+    "test:editor-ui": "electron tests/editor-controls.browser.cjs",
+    "test:gpu": "electron tests/frame-processing.gpu.cjs"
+  },
+  "dependencies": {
+    "lucide-react": "1.61.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@electron/get": "5.1.0",
+    "@electron/universal": "3.0.6",
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "electron": "45.0.0",
+    "esbuild": "0.28.2",
+    "typescript": "7.0.2",
+    "vite": "8.3.5"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/morf3uzzz/reva-studio.git"
+  },
+  "engines": {
+    "node": ">=24.18.0"
+  }
+}
