@@ -5,7 +5,7 @@ establish complete hardware, UI or algorithm parity with another product.
 
 ## Verified for this release
 
-- TypeScript/Vite build; 470 automated editor/backend tests: 469 passed,
+- TypeScript/Vite build; 476 automated editor/backend tests: 475 passed,
   one optional Vision hardware integration check skipped.
 - Native permission response parsing, including the actual CoreGraphics
   `keyboard: "not-granted"` response. The absence of Input Monitoring does not
@@ -21,6 +21,16 @@ establish complete hardware, UI or algorithm parity with another product.
   Actual owned-window ScreenCaptureKit acquisition at 60fps also passed with
   pause/resume and flags. That acquisition used the operator tool's already
   granted permission, not a grant for a freshly signed REVA app.
+- The installed app recorded actual built-in camera/microphone video after macOS
+  privacy access was refreshed. Its 368-frame camera track completed real Apple
+  Vision segmentation, including a leading empty edit, with no source-time error.
+- Window recording preserves source content while extending transparent outer
+  edges before H.264 encoding. The actual captured test-window corner contained
+  no white matte pixels after this fix. Native encoder regressions cover timing,
+  original pixel ownership and decoded output.
+- Source selection uses the actual native client frame after macOS menu-bar
+  repositioning. Window hit testing and region selection share that coordinate map.
+  The active recorder is 160×36 points; EN/RU controls and a 24-hour timer fit.
 - Camera-dependent left tools, hover insertion, mask preview focus, range-only camera
   edits, animation cards and the preset action popover have component integration checks.
 - Real Web Audio/React checks on an operator-owned speech WAV exercised slow, fast and

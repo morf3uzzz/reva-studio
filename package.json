@@ -26,7 +26,8 @@
     "test:encoding": "node scripts/verify-encoding.mjs",
     "test:web-audio": "electron tests/mixed-audio.browser.cjs",
     "test:editor-ui": "electron tests/editor-controls.browser.cjs",
-    "test:gpu": "electron tests/frame-processing.gpu.cjs"
+    "test:gpu": "electron tests/frame-processing.gpu.cjs",
+    "test:recorder-ui": "electron tests/recorder-surfaces.browser.cjs"
   },
   "dependencies": {
     "lucide-react": "1.61.0",

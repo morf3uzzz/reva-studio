@@ -24,6 +24,10 @@ class RecordingWindows {
       ...options,
     });
     this.windows.set(role, window);
+    // macOS can move a borderless overlay below the menu bar when showing it.
+    // Report the actual client frame, independently of the captured display.
+    window.on("move", () => this.publishGeometry(role));
+    window.on("resize", () => this.publishGeometry(role));
     window.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
     window.setAlwaysOnTop(true, "floating");
     window.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
@@ -79,7 +83,7 @@ class RecordingWindows {
       const window = this.toolbar;
       if (window && !window.isDestroyed()) {
         const bounds = window.getBounds();
-        window.setBounds({ x: bounds.x + Math.round((bounds.width - 296) / 2), y: bounds.y, width: 296, height: 64 });
+        window.setBounds({ x: bounds.x + Math.round((bounds.width - 160) / 2), y: bounds.y, width: 160, height: 36 });
         if (enteringRecording || wasVisible) window.showInactive();
       }
     }
@@ -108,7 +112,7 @@ class RecordingWindows {
     this.captureRequest = request;
     toolbar?.hide();
     void this.create("capture-picker", { title: "REVA Studio — Select recording source", ...display.bounds, hasShadow: false, movable: false }).then(window => {
-      if (this.captureRequest === request) { window.show(); window.focus(); }
+      if (this.captureRequest === request) { window.show(); window.focus(); this.publishGeometry("capture-picker"); }
     }).catch(error => {
       if (this.captureRequest === request) { this.captureRequest = null; reject(error); }
     });
@@ -119,14 +123,31 @@ class RecordingWindows {
     if (!area || source.kind !== "display" || !source.bounds) return;
     const data = { x: area.x / source.width, y: area.y / source.height, width: area.width / source.width, height: area.height / source.height };
     this.areaCover = data;
+    this.areaCoverDisplay = source.bounds;
     let window;
     try { window = await this.create("recording-area-cover", { title: "REVA Studio — Recording area", ...source.bounds, x: Math.round(source.bounds.x), y: Math.round(source.bounds.y), width: Math.round(source.bounds.width), height: Math.round(source.bounds.height), hasShadow: false, movable: false, focusable: false, roundedCorners: false }); }
     catch (error) { if (this.areaCover !== data) return; throw error; }
     if (this.areaCover !== data) return;
-    window.setIgnoreMouseEvents(true, { forward: true }); window.showInactive();
+    window.setIgnoreMouseEvents(true, { forward: true }); window.showInactive(); this.publishGeometry("recording-area-cover");
   }
-  closeAreaCover() { this.areaCover = null; const window = this.windows.get("recording-area-cover"); if (window && !window.isDestroyed()) window.destroy(); }
-  captureInfo() { if (!this.captureRequest) throw new Error("No recording source is being selected."); return this.captureRequest.data; }
+  closeAreaCover() { this.areaCover = null; this.areaCoverDisplay = null; const window = this.windows.get("recording-area-cover"); if (window && !window.isDestroyed()) window.destroy(); }
+  contentBounds(role) {
+    const window = this.windows.get(role);
+    return window && !window.isDestroyed() ? (window.getContentBounds?.() ?? window.getBounds()) : null;
+  }
+  publishGeometry(role) {
+    if (role !== "capture-picker" && role !== "recording-area-cover") return;
+    const window = this.windows.get(role);
+    if (!window || window.isDestroyed()) return;
+    if (role === "capture-picker" && this.captureRequest) window.webContents.send("reva:capture-picker-viewport", this.contentBounds(role));
+    if (role === "recording-area-cover" && this.areaCover) window.webContents.send("reva:recording-area-cover", this.areaCoverInfo());
+  }
+  areaCoverInfo() {
+    const area = this.areaCover, display = this.areaCoverDisplay, frame = this.contentBounds("recording-area-cover");
+    if (!area || !display || !frame) return null;
+    return { x: (display.x + area.x * display.width - frame.x) / frame.width, y: (display.y + area.y * display.height - frame.y) / frame.height, width: area.width * display.width / frame.width, height: area.height * display.height / frame.height };
+  }
+  captureInfo() { if (!this.captureRequest) throw new Error("No recording source is being selected."); return { ...this.captureRequest.data, viewport: this.contentBounds("capture-picker") ?? this.captureRequest.data.display }; }
   captureArea(value, source) {
     if (!value || typeof value !== "object" || ![value.x, value.y, value.width, value.height].every(Number.isFinite) || value.x < 0 || value.y < 0 || value.width < 150 || value.height < 150 || value.x + value.width > source.width || value.y + value.height > source.height) throw new Error("The recording area must fit inside the display and be at least 150 × 150 pixels.");
     return { x: value.x, y: value.y, width: value.width, height: value.height };

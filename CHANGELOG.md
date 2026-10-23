@@ -23,3 +23,5 @@ See [release status](docs/STATUS.md) for unverified conditions and compatibility
 - Compact recording widget with stop/timer, pause, restart and delete controls.
 - Stabilize preview geometry while timeline feature rows expand on hover.
 - Add a separate transcript editor, advanced shadow controls and responsive labels.
+
+Recording follow-up: correct window-selection coordinates below the macOS menu bar, a smaller 160×36 recording widget, clean transparent window corners before H.264 encoding, and camera cutout support for tracks with a leading empty edit.

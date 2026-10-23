@@ -3,6 +3,7 @@ import { AppWindow, Check, ChevronDown, ChevronLeft, CircleHelp, LoaderCircle, P
 import { initializeLanguage, useLanguage } from "./i18n";
 import { constrainPixelCrop, fitCropAspect, movePixelCrop, resizePixelCrop, setCropDimension, type CropHandle, type CropRect } from "./crop-geometry";
 import type { CaptureSource, QuickExportSettings } from "./types";
+import { globalRectToViewport, viewportPointToGlobal, sourceRectToGlobal, globalPointToSource } from "./capture-geometry";
 import "./capture-picker.css";
 
 export type { QuickExportSettings } from "./types";
@@ -15,6 +16,7 @@ export interface CapturePickerData {
   mode: CapturePickerMode;
   sources: PickerSource[];
   display: CropRect;
+  viewport?: CropRect;
   fps: number;
   autoZoom: boolean;
   afterRecording: AfterRecording;
@@ -30,6 +32,7 @@ export interface CapturePickerResult {
 }
 export interface CapturePickerBridge {
   getCapturePicker(): Promise<CapturePickerData>;
+  onCapturePickerViewport(callback: (frame: CropRect) => void): () => void;
   completeCapturePicker(result: CapturePickerResult | null): Promise<void>;
   saveCaptureArea(input: { name: string; rect: CropRect }): Promise<SavedCaptureArea[]>;
 }
@@ -114,12 +117,14 @@ export default function CapturePicker({ mode: requestedMode }: { mode?: CaptureP
   const [popup, setPopup] = useState<Popup>(null), [popupAnchor, setPopupAnchor] = useState<HTMLElement | null>(null), [saveName, setSaveName] = useState("");
   const [error, setError] = useState(""), [busy, setBusy] = useState(false), [saving, setSaving] = useState(false), [dragging, setDragging] = useState(false);
   const [viewport, setViewport] = useState({ width: innerWidth, height: innerHeight });
+  const [nativeViewport, setNativeViewport] = useState<CropRect | null>(null);
   const [windowDimensions, setWindowDimensions] = useState({ width: 1280, height: 720 });
   const stageRef = useRef<HTMLElement>(null), areaRef = useRef<HTMLDivElement>(null), busyRef = useRef(false), mounted = useRef(true);
   const dragRef = useRef<{ pointer: number; kind: "create" | "move" | CropHandle; x: number; y: number; rect: CropRect } | null>(null);
   const source = displaySource(data), windows = data?.sources.filter(source => source.kind === "window" && source.bounds) ?? [];
   const windowSource = windows.find(source => source.id === (selected ?? hover));
   const activeSource = mode === "window" ? windowSource : source;
+  const frame = nativeViewport ?? data?.viewport ?? data?.display;
   useEffect(() => { if (windowSource) setWindowDimensions({ width: windowSource.width, height: windowSource.height }); }, [windowSource?.id, windowSource?.width, windowSource?.height]);
   const ratio = aspect === "free" ? null : aspect === "original" && source ? source.width / source.height : Number(aspect);
   const validArea = !!area && Math.round(area.width) >= 150 && Math.round(area.height) >= 150;
@@ -128,13 +133,14 @@ export default function CapturePicker({ mode: requestedMode }: { mode?: CaptureP
   useEffect(() => {
     mounted.current = true;
     document.documentElement.dataset.capturePicker = "true";
+    const offViewport = api?.onCapturePickerViewport?.(setNativeViewport);
     void initializeLanguage().catch(fail);
     if (!api) setError(text.bridgeMissing);
     else void api.getCapturePicker().then(value => {
       if (!mounted.current) return;
       setData(value); setMode(requestedMode ?? value.mode); setAutoZoom(value.autoZoom); setAfterRecording(value.afterRecording); setQuickExportSettings({ ...defaultExport, ...value.quickExportSettings });
     }).catch(fail);
-    return () => { mounted.current = false; delete document.documentElement.dataset.capturePicker; };
+    return () => { mounted.current = false; offViewport?.(); delete document.documentElement.dataset.capturePicker; };
   }, []);
 
   useEffect(() => {
@@ -181,7 +187,7 @@ export default function CapturePicker({ mode: requestedMode }: { mode?: CaptureP
   function showPopup(value: Popup, anchor: HTMLElement) { setPopup(current => current === value ? null : value); setPopupAnchor(anchor); setError(""); }
   function point(event: ReactPointerEvent) {
     const rect = stageRef.current!.getBoundingClientRect();
-    return { x: Math.max(0, Math.min(source!.width, (event.clientX - rect.left) * source!.width / rect.width)), y: Math.max(0, Math.min(source!.height, (event.clientY - rect.top) * source!.height / rect.height)) };
+    return globalPointToSource(viewportPointToGlobal({ x: event.clientX - rect.left, y: event.clientY - rect.top }, frame!, rect), source!, data!.display);
   }
   function startDrag(event: ReactPointerEvent<HTMLElement>, kind: "create" | "move" | CropHandle) {
     if (mode !== "area" || !source || busy || event.button !== 0) return;
@@ -204,7 +210,8 @@ export default function CapturePicker({ mode: requestedMode }: { mode?: CaptureP
       return;
     }
     if (mode !== "window" || selected || !data || interactive(event.target)) return;
-    const x = event.clientX * data.display.width / viewport.width + data.display.x, y = event.clientY * data.display.height / viewport.height + data.display.y;
+    const rect = stageRef.current!.getBoundingClientRect();
+    const { x, y } = viewportPointToGlobal({ x: event.clientX - rect.left, y: event.clientY - rect.top }, frame!, rect);
     const hits = windows.filter(source => source.bounds && x >= source.bounds.x && y >= source.bounds.y && x <= source.bounds.x + source.bounds.width && y <= source.bounds.y + source.bounds.height).sort((a, b) => (a.zIndex ?? Infinity) - (b.zIndex ?? Infinity));
     setHover(hits[0]?.id ?? null);
   }
@@ -225,8 +232,9 @@ export default function CapturePicker({ mode: requestedMode }: { mode?: CaptureP
     finally { if (mounted.current) setSaving(false); }
   }
 
-  const areaCSS = area && source ? { left: area.x / source.width * viewport.width, top: area.y / source.height * viewport.height, width: area.width / source.width * viewport.width, height: area.height / source.height * viewport.height } : null;
-  const windowCSS = windowSource?.bounds && data ? { left: (windowSource.bounds.x - data.display.x) * viewport.width / data.display.width, top: (windowSource.bounds.y - data.display.y) * viewport.height / data.display.height, width: windowSource.bounds.width * viewport.width / data.display.width, height: windowSource.bounds.height * viewport.height / data.display.height, borderRadius: windowSource.borderRadius ?? 11 } : null;
+  const cssRect = (rect: CropRect) => { const projected = globalRectToViewport(rect, frame!, viewport); return { left: projected.x, top: projected.y, width: projected.width, height: projected.height }; };
+  const areaCSS = area && source && data && frame ? cssRect(sourceRectToGlobal(area, source, data.display)) : null;
+  const windowCSS = windowSource?.bounds && frame ? { ...cssRect(windowSource.bounds), borderRadius: windowSource.borderRadius ?? 11 } : null;
   const toolHeight = validArea ? 224 : 162;
   const areaTools = areaCSS ? { left: Math.max(12, Math.min(viewport.width - 284, areaCSS.left + areaCSS.width / 2 - 136)), top: areaCSS.top + areaCSS.height + toolHeight + 20 <= viewport.height - 30 ? areaCSS.top + areaCSS.height + 20 : Math.max(12, areaCSS.top - toolHeight - 20) } : null;
   const cardStyle: CSSProperties = mode === "window" && windowCSS ? { left: Math.max(180, Math.min(viewport.width - 180, windowCSS.left + windowCSS.width / 2)), top: Math.max(150, Math.min(viewport.height - 190, windowCSS.top + windowCSS.height / 2)) } : {};

@@ -72,6 +72,7 @@ function fixture() {
     hide() { this.visible = false; }
     focus() {}
     getBounds() { return this.bounds; }
+    getContentBounds() { const { x, y, width, height } = this.bounds; return { x, y, width, height }; }
     setBounds(value) { Object.assign(this.bounds, value); }
     setVisibleOnAllWorkspaces() {}
     setAlwaysOnTop() {}
@@ -890,4 +891,30 @@ test("area cover owns a click-through logical-display window and cancellation ca
 test("recording state updates retain a deliberately hidden status widget", async () => {
   const f = fixture(), owner = f.recorder(); await openRecorder(owner, f.windows); owner.setState({ status: "recording", startedAt: 1 }); owner.toolbar.hide();
   owner.setState({ status: "recording", startedAt: 1, paused: true }); assert.equal(owner.toolbar.isVisible(), false);
+});
+
+test("capture overlays publish the actual client frame after macOS repositions them", async () => {
+  const f = fixture(), owner = f.recorder(), choice = select(owner, "window"), picker = f.windows.at(-1), sent = [];
+  picker.webContents.send = (channel, value) => sent.push({ channel, value });
+  picker.load.resolve(); await flush();
+  picker.setBounds({ y: 33 }); picker.emit("move");
+  assert.deepEqual(owner.captureInfo().viewport, { x: 0, y: 33, width: 1920, height: 1080 });
+  assert.deepEqual(sent.at(-1), { channel: "reva:capture-picker-viewport", value: owner.captureInfo().viewport });
+  owner.cancelCapture(); await choice;
+  const covering = owner.showAreaCover(displaySource, selectedArea), cover = f.windows.at(-1);
+  cover.load.resolve(); await covering;
+  cover.setBounds({ y: 33 }); cover.emit("move");
+  assert.equal(owner.areaCoverInfo().y, (20 - 33) / 1080, "Area overlay must not add the menu-bar offset to source coordinates");
+  owner.dispose();
+});
+
+test("compact recording widget retains its center and dimensions through pause state updates", async () => {
+  const f = fixture(), owner = f.recorder(), toolbar = await openRecorder(owner, f.windows);
+  const center = toolbar.getBounds().x + toolbar.getBounds().width / 2;
+  owner.setState({ status: "recording", startedAt: 1 });
+  assert.equal(toolbar.getBounds().width, 160); assert.equal(toolbar.getBounds().height, 36);
+  assert.equal(toolbar.getBounds().x + 80, center);
+  owner.setState({ status: "recording", startedAt: 1, paused: true });
+  assert.equal(toolbar.getBounds().x + 80, center); assert.equal(toolbar.getBounds().height, 36);
+  owner.dispose();
 });

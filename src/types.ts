@@ -399,6 +399,7 @@ export interface RevaAPI extends PreferencesAPI {
   closeRecordingPanel(): Promise<void>;
   getRecordingPanel(): Promise<RecordingPanelState & { preferences: RecordingPreferences; screenIssue: ScreenCaptureIssue | null }>;
   getRecordingAreaCover(): Promise<{ x: number; y: number; width: number; height: number } | null>;
+  onRecordingAreaCover(callback: (area: { x: number; y: number; width: number; height: number } | null) => void): () => void;
   getCaptureDevices(): Promise<CaptureDeviceInventory>;
   showRecordingMenu(kind: "camera" | "microphone" | "system-audio" | "settings" | "screen-permission", position: { x: number; y: number }): Promise<{ preferences: RecordingPreferences; language: "ru" | "en"; retrySource?: boolean }>;
   getRecordingPopover(): Promise<RecordingPopoverData>;
@@ -419,6 +420,7 @@ export interface RevaAPI extends PreferencesAPI {
   openCapturePrivacySettings(kind: "microphone" | "screen"): Promise<void>;
   chooseRecordingSource(kind: "display" | "window" | "area" | "device", position: { x: number; y: number }): Promise<{ source: CaptureSource; area?: { x: number; y: number; width: number; height: number } } | { issue: ScreenCaptureIssue } | null>;
   getCapturePicker(): Promise<import("./CapturePicker").CapturePickerData>;
+  onCapturePickerViewport(callback: (frame: { x: number; y: number; width: number; height: number }) => void): () => void;
   completeCapturePicker(result: import("./CapturePicker").CapturePickerResult | null): Promise<void>;
   saveCaptureArea(input: {name: string; rect: {x: number; y: number; width: number; height: number}}): Promise<import("./CapturePicker").SavedCaptureArea[]>;
   openRecordingsFolder(): Promise<void>;

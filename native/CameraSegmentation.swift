@@ -244,6 +244,11 @@ enum CameraSegmenter {
         let natural = try await track.load(.naturalSize)
         let transform = try await track.load(.preferredTransform)
         let range = try await track.load(.timeRange)
+        let segments = try await track.load(.segments)
+        let mediaRanges = segments.filter { !$0.isEmpty }.map { $0.timeMapping.target }.sorted { $0.start.seconds < $1.start.seconds }
+        guard !mediaRanges.isEmpty, mediaRanges.allSatisfy({ $0.start.isNumeric && $0.duration.isNumeric && $0.duration.seconds > 0 }) else {
+            throw CaptureFailure(code: "invalid_video_duration", message: "The camera track has no finite nonempty media segment.")
+        }
         let frameRate = try await track.load(.nominalFrameRate)
         let formats = try await track.load(.formatDescriptions)
         guard duration.isNumeric, duration.seconds >= 0.001, duration.seconds <= 86400,
@@ -278,12 +283,20 @@ enum CameraSegmenter {
             var first = CMTime.invalid, last = CMTime.invalid, end = CMTime.invalid
             var frames = 0, lastProgress = 0.0
             var finalDurationSource = "sample"
+            var rangeIndex = 0
             while let sample = current {
                 try control.check()
                 let next = decoded.copyNextSampleBuffer()
+                current = next
                 let pts = CMSampleBufferGetPresentationTimeStamp(sample)
                 guard pts.isNumeric, pts.epoch == 0, pts.seconds >= 0, pts.seconds < duration.seconds + 0.001,
                       !last.isNumeric || CMTimeCompare(pts, last) > 0 else { throw CaptureFailure(code: "invalid_sample_time", message: "Camera timestamps must be finite, nonnegative and strictly increasing within the source duration.") }
+                // AVAssetReader synthesizes an image at t=0 for a leading empty
+                // edit. It is not an encoded camera frame. Keep mask origin and
+                // frame coverage on the actual nonempty source segments.
+                while rangeIndex < mediaRanges.count && CMTimeCompare(pts, CMTimeRangeGetEnd(mediaRanges[rangeIndex])) >= 0 { rangeIndex += 1 }
+                guard rangeIndex < mediaRanges.count else { continue }
+                guard CMTimeCompare(pts, mediaRanges[rangeIndex].start) >= 0 else { continue }
                 if !first.isNumeric { first = pts }
                 var sampleDuration = CMSampleBufferGetDuration(sample)
                 finalDurationSource = "sample"
@@ -291,6 +304,7 @@ enum CameraSegmenter {
                     sampleDuration = next.map { CMTimeSubtract(CMSampleBufferGetPresentationTimeStamp($0), pts) } ?? CMTimeSubtract(CMTimeRangeGetEnd(range), pts)
                     finalDurationSource = next == nil ? "track-end" : "next-pts"
                 }
+                sampleDuration = CMTimeMinimum(sampleDuration, CMTimeSubtract(CMTimeRangeGetEnd(mediaRanges[rangeIndex]), pts))
                 guard sampleDuration.isNumeric, sampleDuration.seconds > 0, CMTimeAdd(pts, sampleDuration).seconds <= duration.seconds + 0.001 else { throw CaptureFailure(code: "invalid_sample_duration", message: "The camera frame has no valid duration within the source timeline.") }
                 let frame = try autoreleasepool { () throws -> (sample: CMSampleBuffer, width: Int, height: Int) in
                     do { try VNImageRequestHandler(cmSampleBuffer: sample, orientation: orientation, options: [:]).perform([request]) }
@@ -311,7 +325,6 @@ enum CameraSegmenter {
                 if frames == 1 || now - lastProgress >= 0.1 {
                     ProtocolOutput.emit(Progress(phase: "segmenting", progress: min(0.95, 0.95 * end.seconds / duration.seconds), t: pts.seconds, frames: frames)); lastProgress = now
                 }
-                current = next
             }
             try control.check()
             guard reader.status == .completed else { throw CaptureFailure(code: "video_decode_failed", message: "The camera decoder did not complete: \(reader.error?.localizedDescription ?? "")") }

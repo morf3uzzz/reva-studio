@@ -43,7 +43,13 @@ function parseProbe(raw, label) {
   const v = videos[0];
   const width = integer(v.width, 1, 32768, `${label} width`);
   const height = integer(v.height, 1, 32768, `${label} height`);
-  const seconds = duration(Number(value.format?.duration ?? v.duration), `${label} duration`);
+  const containerDuration = duration(Number(value.format?.duration ?? v.duration), `${label} duration`);
+  const start = finite(Number(v.start_time ?? 0), `${label} start time`);
+  const streamDuration = duration(Number(v.duration ?? containerDuration), `${label} track duration`);
+  // Fragmented camera MP4s report a track length as format.duration even when
+  // their first sample follows an empty edit. Native AVAsset timestamps include
+  // that leading gap. Validate progress and masks on that same source clock.
+  const seconds = duration(Math.max(containerDuration, start + streamDuration), `${label} timeline end`);
   const fps = [rational(v.avg_frame_rate), rational(v.r_frame_rate)].filter(Boolean);
   if (!fps.length) throw new Error(`${label} has no valid frame clock.`);
   const frameTolerance = Math.max(...fps.map(n => 1 / n), 0.000001);
@@ -55,8 +61,7 @@ function parseProbe(raw, label) {
   return {
     width: swap ? height : width, height: swap ? width : height,
     codedWidth: width, codedHeight: height, rotation, frames,
-    duration: seconds, streamDuration: duration(Number(v.duration ?? seconds), `${label} track duration`),
-    start: finite(Number(v.start_time ?? 0), `${label} start time`),
+    duration: seconds, streamDuration, start,
     frameTolerance, codec: v.codec_name, streamCount: value.streams.length,
   };
 }

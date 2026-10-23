@@ -52,6 +52,7 @@ import ImageIO
         let nativeMessage = CaptureFailure.describe(nativeFailure)
         try require(nativeMessage.contains("AVFoundationErrorDomain -11800") && nativeMessage.contains("NSOSStatusErrorDomain -16364"), "The capture protocol lost the native failure identity.")
         try await checkCheckpointOrdering(directory: directory)
+        try await checkWindowCorners(directory: directory)
         try checkCameraFormatSelection()
         try await checkCameraScaling(directory: directory)
         try await checkRecordingExtensions(directory: directory)
@@ -381,6 +382,53 @@ import ImageIO
         let invalid = [format(0, 720), format(1280, 720, .nan, 30), format(1280, 720, 10, .infinity), format(Int.max, 720), format(1280, 720, 0, 30)]
         try require(CaptureDevices.chooseFormat(invalid, maximumHeight: 1080) == nil, "Unsupported or oversized formats did not fail closed.")
         try require(CaptureDevices.chooseFormat([format(16384, 2160)], maximumHeight: 2160) == nil, "The camera pixel budget was exceeded.")
+    }
+
+    static func checkWindowCorners(directory: URL) async throws {
+        let anchor = CMTime(value: 401, timescale: 30)
+        let source = try video(at: anchor)
+        let pixels = CMSampleBufferGetImageBuffer(source)!
+        CVPixelBufferLockBaseAddress(pixels, [])
+        let bytes = CVPixelBufferGetBaseAddress(pixels)!.assumingMemoryBound(to: UInt8.self), stride = CVPixelBufferGetBytesPerRow(pixels)
+        for y in 0..<180 { for x in 0..<320 {
+            let i = y * stride + x * 4
+            bytes[i] = 70; bytes[i + 1] = 110; bytes[i + 2] = 160
+            bytes[i + 3] = y == 0 || y == 179 || (y < 20 && (x < 20 - y || x >= 300 + y)) || (y >= 160 && (x < y - 159 || x >= 479 - y)) ? 0 : 255
+        } }
+        bytes[90 * stride + 160 * 4] = 230
+        CVPixelBufferUnlockBaseAddress(pixels, [])
+        let normalizer = WindowFrameNormalizer()
+        let normalized = try normalizer.sample(source)!
+        try require(CMSampleBufferGetPresentationTimeStamp(normalized) == anchor && CMSampleBufferGetDuration(normalized) == CMSampleBufferGetDuration(source), "Window edge cleanup changed capture timing.")
+        let output = CMSampleBufferGetImageBuffer(normalized)!
+        CVPixelBufferLockBaseAddress(pixels, .readOnly); CVPixelBufferLockBaseAddress(output, .readOnly)
+        let original = CVPixelBufferGetBaseAddress(pixels)!.assumingMemoryBound(to: UInt8.self), result = CVPixelBufferGetBaseAddress(output)!.assumingMemoryBound(to: UInt8.self), outputStride = CVPixelBufferGetBytesPerRow(output)
+        var preserved = true, opaque = true
+        for y in 0..<180 { for x in 0..<320 {
+            let i = y * stride + x * 4, j = y * outputStride + x * 4
+            if original[i + 3] == 255 { for component in 0..<4 { preserved = preserved && original[i + component] == result[j + component] } }
+            opaque = opaque && result[j + 3] == 255
+        } }
+        let untouched = original[3] == 0, filled = result[0] == 70 && result[1] == 110 && result[2] == 160
+        CVPixelBufferUnlockBaseAddress(output, .readOnly); CVPixelBufferUnlockBaseAddress(pixels, .readOnly)
+        try require(preserved && opaque && untouched && filled, "Window cleanup changed opaque content, mutated the capture buffer, or retained a corner matte.")
+        let alreadyOpaque = try normalizer.sample(normalized)
+        try require(alreadyOpaque === normalized, "Already opaque window frames should not be copied.")
+        let writer = try MediaWriter(url: directory.appendingPathComponent("window-corners.mp4"), width: 320, height: 180, fps: 30)
+        try writer.append(normalized, video: true, sourceClock: nil, timeline: RecordingTimeline(anchor: anchor))
+        try await Task.sleep(nanoseconds: 50_000_000)
+        try writer.end(at: CMTime(value: 1, timescale: 2), fps: 30); try await writer.finish()
+        let asset = AVURLAsset(url: directory.appendingPathComponent("window-corners.mp4"))
+        let reader = try AVAssetReader(asset: asset)
+        let tracks = try await asset.loadTracks(withMediaType: .video)
+        let decoded = AVAssetReaderTrackOutput(track: tracks[0], outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA])
+        reader.add(decoded); try require(reader.startReading(), "Cannot decode cleaned window recording.")
+        guard let sample = decoded.copyNextSampleBuffer(), let decodedPixels = CMSampleBufferGetImageBuffer(sample) else { throw CaptureFailure(code: "test_failed", message: "Cleaned window recording has no frame.") }
+        CVPixelBufferLockBaseAddress(decodedPixels, .readOnly)
+        let corner = CVPixelBufferGetBaseAddress(decodedPixels)!.assumingMemoryBound(to: UInt8.self)
+        let clean = abs(Int(corner[0]) - 70) < 15 && abs(Int(corner[1]) - 110) < 15 && abs(Int(corner[2]) - 160) < 15
+        CVPixelBufferUnlockBaseAddress(decodedPixels, .readOnly)
+        try require(clean, "The actual H.264 window recording reintroduced white corners.")
     }
 
     static func checkCameraScaling(directory: URL) async throws {

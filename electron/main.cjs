@@ -887,7 +887,7 @@ function installIPC() {
   });
   handle("reva:recorder-close", () => { recordingMenuGeneration++; sourceRequestGeneration++; recorder.close(); }, ["recorder"]);
   handle("reva:recorder-state", () => ({ ...recorder.state, preferences: settings.recording, screenIssue: screenCaptureIssue }), ["recorder"]);
-  handle("reva:recording-area-cover", () => recorder.areaCover ?? null, ["recording-area-cover"]);
+  handle("reva:recording-area-cover", () => recorder.areaCoverInfo(), ["recording-area-cover"]);
   handle("reva:recorder-devices", async () => (await captureReady()).devices(), ["recorder"]);
   handle("reva:input-monitor-state", inputMonitorSnapshot, ["recorder", "recorder-popover"]);
   handle("reva:camera-effects", async () => {

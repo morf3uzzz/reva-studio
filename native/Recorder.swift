@@ -43,6 +43,8 @@ final class Recorder: NSObject, SCStreamOutput, SCStreamDelegate, AVCaptureVideo
     private var screenWriter: MediaWriter?
     private var cameraWriter: MediaWriter?
     private let cameraScaler: CameraFrameScaler
+    private let windowFrames = WindowFrameNormalizer()
+    private let transparentWindowBackground = CGColor(gray: 0, alpha: 0)
     private var microphoneWriter: MediaWriter?
     private var cursorWriter: CursorWriter?
     private var cursorPoll = CursorPollState()
@@ -190,7 +192,10 @@ final class Recorder: NSObject, SCStreamOutput, SCStreamDelegate, AVCaptureVideo
         config.scalesToFit = true
         config.preservesAspectRatio = true
         config.ignoreShadowsSingleWindow = true
-        config.shouldBeOpaque = true
+        // Keep native window alpha until its outer edges are normalized for
+        // opaque H.264. ScreenCaptureKit's opaque default paints them white.
+        config.shouldBeOpaque = sourceWindow == nil
+        if sourceWindow != nil { config.backgroundColor = transparentWindowBackground }
         config.capturesAudio = false
         config.excludesCurrentProcessAudio = false
         config.sampleRate = 48_000
@@ -296,7 +301,7 @@ final class Recorder: NSObject, SCStreamOutput, SCStreamDelegate, AVCaptureVideo
                              microphonePath: options.microphone ? options.microphoneOutput.path : nil,
                              cameraStartTime: cameraWriter?.firstVideoTime?.seconds,
                              cameraEndTime: cameraEndTime,
-                             droppedVideoFrames: writers.reduce(0) { $0 + $1.droppedVideoFrames } + cameraScaler.droppedFrames + (screenDeviceScaler?.droppedFrames ?? 0),
+                             droppedVideoFrames: writers.reduce(0) { $0 + $1.droppedVideoFrames } + cameraScaler.droppedFrames + windowFrames.droppedFrames + (screenDeviceScaler?.droppedFrames ?? 0),
                              droppedAudioBuffers: writers.reduce(0) { $0 + $1.droppedAudioBuffers },
                              cursorSourceSize: .init(width: Double(crop.width), height: Double(crop.height)))
     }
@@ -483,7 +488,12 @@ final class Recorder: NSObject, SCStreamOutput, SCStreamDelegate, AVCaptureVideo
                     typingCounter.reset(to: CGEventSource.counterForEventType(.combinedSessionState, eventType: .keyDown))
                 }
                 guard let timeline else { return }
-                try screenWriter?.append(sampleBuffer, video: true, sourceClock: clock, timeline: timeline)
+                let encodedSample: CMSampleBuffer
+                if sourceWindow != nil {
+                    guard let normalized = try windowFrames.sample(sampleBuffer) else { return }
+                    encodedSample = normalized
+                } else { encodedSample = sampleBuffer }
+                try screenWriter?.append(encodedSample, video: true, sourceClock: clock, timeline: timeline)
                 if cursorTimer == nil {
                     startCursorTimer()
                 }

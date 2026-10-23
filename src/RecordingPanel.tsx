@@ -111,11 +111,12 @@ export default function RecordingPanel() {
   const microphoneID = preferences.microphoneDeviceID ?? (input.state.microphones === "selected" ? input.state.microphoneDeviceIDs[0] : undefined) ?? devices.microphones.find(device => device.default)?.id;
   const micLevel = microphoneID ? levels.get(microphoneID) : undefined;
   const micStatus = microphoneStatus(input.state, microphoneID, micLevel, input.now);
+  const clockText = formatTime((state.elapsedMs === undefined ? Math.max(0, now - (state.startedAt ?? now)) : state.elapsedMs + (state.paused ? 0 : Math.max(0, now - (state.stateUpdatedAt ?? now)))) / 1000);
   if (state.status !== "idle") return <main className="recorder-strip recorder-active" aria-label={t("Recording controls")}>
     {error && <span role="alert" className="recorder-error" title={error} onClick={() => setError("")}>{error}</span>}
     <button className="recorder-stop" aria-label={t(state.status === "finishing" ? "Finishing…" : "Stop recording")} disabled={state.status === "finishing"} onClick={() => { setState(value => ({ ...value, status: "finishing" })); void api.stopRecording().catch(fail); }} title={t("Stop recording")}>
       {state.status === "finishing" ? <LoaderCircle className="spin" /> : <CircleStop />}
-      <span className="recorder-clock">{formatTime((state.elapsedMs === undefined ? Math.max(0, now - (state.startedAt ?? now)) : state.elapsedMs + (state.paused ? 0 : Math.max(0, now - (state.stateUpdatedAt ?? now)))) / 1000)}</span>
+      <span className={`recorder-clock${clockText.length > 5 ? " long" : ""}`}>{clockText}</span>
     </button>
     <span className="recorder-divider" />
     <button aria-label={t(state.paused ? "Resume recording" : "Pause recording")} title={t(state.paused ? "Resume recording" : "Pause recording")} disabled={state.status === "finishing"} onClick={() => void (state.paused ? api.resumeRecording() : api.pauseRecording()).catch(fail)}>{state.paused ? <CirclePlay /> : <CirclePause />}</button>

@@ -21,6 +21,7 @@ test.before(async () => {
   if (mediaTest.skip) return;
   templates = await fs.mkdtemp(path.join(os.tmpdir(), "reva-cutout-media-"));
   await runProcess(ffmpeg, ["-v", "error", "-f", "lavfi", "-i", "testsrc2=s=64x36:r=10:d=0.5", "-c:v", "libx264", "-pix_fmt", "yuv420p", path.join(templates, "source.mp4")]);
+  await runProcess(ffmpeg, ["-v", "error", "-f", "lavfi", "-i", "testsrc2=s=64x36:r=10:d=0.5", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-output_ts_offset", "2", "-movflags", "empty_moov+frag_keyframe+default_base_moof", path.join(templates, "leading-edit.mp4")]);
   await runProcess(ffmpeg, ["-v", "error", "-f", "lavfi", "-i", "color=white:s=32x24:r=10:d=0.5", "-c:v", "libx264", "-pix_fmt", "yuv420p", path.join(templates, "mask.mp4")]);
 });
 test.after(async () => { if (templates) await fs.rm(templates, { recursive: true, force: true }); });
@@ -31,7 +32,7 @@ async function fixture(t, mode = "success", options = {}) {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), "reva-cutout-wrapper-"));
   const directory = await fs.realpath(root), source = path.join(directory, "камера.mp4");
   const maskFixture = path.join(directory, "mask-fixture.mp4"), outside = path.join(directory, "unrelated.txt");
-  await fs.copyFile(path.join(templates, "source.mp4"), source);
+  await fs.copyFile(path.join(templates, mode === "leading-edit" ? "leading-edit.mp4" : "source.mp4"), source);
   await fs.copyFile(path.join(templates, "mask.mp4"), maskFixture);
   await fs.writeFile(outside, "unrelated file must survive");
   const hash = crypto.createHash("sha256").update(await fs.readFile(source)).digest("hex");
@@ -43,6 +44,13 @@ async function fixture(t, mode = "success", options = {}) {
       firstPTS: { value: 0, timescale: 10, seconds: 0 }, lastPTS: { value: 4, timescale: 10, seconds: 0.4 }, sourceEnd: { value: 5, timescale: 10, seconds: 0.5 } },
     settings: { quality: "balanced", visionRevision: 1, outputPixelFormat: "OneComponent8" },
   };
+  if (mode === "leading-edit") {
+    manifest.source.duration = 0.7;
+    manifest.timing.sourceTimeOrigin = 0.2;
+    manifest.timing.firstPTS = { value: 2, timescale: 10, seconds: 0.2 };
+    manifest.timing.lastPTS = { value: 6, timescale: 10, seconds: 0.6 };
+    manifest.timing.sourceEnd = { value: 7, timescale: 10, seconds: 0.7 };
+  }
   const helper = path.join(directory, "protocol-helper.cjs"), marker = path.join(directory, "started");
   await fs.writeFile(helper, `#!${process.execPath}
 "use strict";
@@ -54,7 +62,7 @@ const manifest = ${JSON.stringify(manifest)};
 manifest.source.path = args[args.indexOf("--input") + 1];
 manifest.settings.quality = args[args.indexOf("--quality") + 1];
 const emit = value => process.stdout.write(JSON.stringify(value) + "\\n");
-const ready = () => emit({type:"ready", duration:0.5, width:64, height:36, quality:manifest.settings.quality});
+const ready = () => emit({type:"ready", duration:manifest.source.duration, width:64, height:36, quality:manifest.settings.quality});
 let cancelling = false;
 const cancel = () => {
   if (cancelling) return; cancelling = true;
@@ -71,7 +79,7 @@ else if (mode === "oversized-message") { process.stdout.write("x".repeat(65537))
 else if (mode === "before-ready") { emit({type:"completed", outputDirectory:output}); process.exit(0); }
 else {
   ready();
-  emit({type:"progress", phase:mode === "finalizing" ? "finalizing" : "segmenting", progress:mode === "finalizing" ? 0.95 : 0.1, t:0, frames:1});
+  emit({type:"progress", phase:["finalizing", "leading-edit"].includes(mode) ? "finalizing" : "segmenting", progress:["finalizing", "leading-edit"].includes(mode) ? 0.95 : 0.1, t:mode === "beyond-progress" ? 4 : mode === "leading-edit" ? manifest.timing.sourceEnd.seconds : manifest.timing.sourceTimeOrigin, frames:1});
   if (["active", "finalizing"].includes(mode)) { setInterval(() => {}, 1000); }
   else {
     fs.mkdirSync(output);
@@ -136,6 +144,13 @@ test("camera wrapper validates real media, exact source identity and distinct Vi
   await assert.rejects(denied.segmenter.segment(denied.source), /not been selected/);
   await assert.rejects(fs.stat(denied.marker), { code: "ENOENT" });
   await emptyCache(denied);
+});
+
+test("camera masks use the source timeline end for fragmented video with a leading empty edit", mediaTest, async t => {
+  const f = await fixture(t, "leading-edit"), result = await f.segmenter.segment(f.source);
+  assert.equal(result.sourceTimeOrigin, 0.2);
+  assert.equal(result.duration, 0.5);
+  assert.deepEqual(f.progress, [0.95]);
 });
 
 test("camera cancellation before source grant prevents process startup", mediaTest, async t => {
@@ -237,7 +252,7 @@ test("camera validates protocol, bounded manifest, media encoding and source tim
   for (const [mode, pattern] of [
     ["wrong-source", /another source/], ["wrong-hash", /SHA256/],
     ["wrong-dimensions", /encoding or frame coverage/], ["wrong-clock", /time origin/],
-    ["wrong-frames", /every source video frame/], ["beyond-source", /beyond.*duration/],
+    ["wrong-frames", /every source video frame/], ["beyond-source", /beyond.*duration/], ["beyond-progress", /progress extends beyond/],
     ["wrong-quality", /settings do not match/], ["malformed-json", /JSON|property|position/i],
     ["mask-symlink", /ELOOP/], ["manifest-symlink", /ELOOP/],
     ["oversized-file", /memory budget/], ["oversized-message", /oversized message/],
