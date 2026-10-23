@@ -16,6 +16,7 @@ const {
   clipboard,
   ClipboardItem,
   screen,
+  systemPreferences,
 } = require("electron");
 const fs = require("node:fs").promises;
 const path = require("node:path");
@@ -38,7 +39,7 @@ const { effectiveShortcuts, accelerator, patchAppPreferences: parsePreferencesPa
 const { InputMonitor, inputErrorData } = require("./input-monitor.cjs");
 const { LiveInputs } = require("./live-inputs.cjs");
 const { CameraPreviewFrames } = require("./camera-preview-frames.cjs");
-const { capturePrivacySettingsURL } = require("./capture-permissions.cjs");
+const { capturePrivacySettingsURL, CaptureMediaPermissions } = require("./capture-permissions.cjs");
 const { Exporter } = require("./exporter.cjs");
 const {
   contained,
@@ -191,6 +192,8 @@ const cameraFrames = new CameraPreviewFrames(frame => {
   const window = recorder.windows.get("camera-preview");
   if (window && !window.isDestroyed()) window.webContents.send("reva:camera-preview-frame", frame);
 });
+const mediaPermissions = new CaptureMediaPermissions({ systemPreferences });
+let liveInputAuthorization = null;
 const inputLevels = new Map();
 let inputMonitorState = { phase: "idle", camera: false, cameraDeviceID: null, activeCameraDeviceID: null, microphones: "none", microphoneDeviceID: null, microphonePermission: "unknown", microphoneDeviceIDs: [], errors: [], updatedAt: Date.now() };
 function reportInputError(error) {
@@ -220,6 +223,9 @@ async function disposeLiveInputs() {
 function publishRecordingPreferences() { recorder.broadcast("reva:recording-preferences", settings.recording); }
 async function syncLiveInputs({ force = false } = {}) {
   const generation = ++liveInputGeneration;
+  liveInputAuthorization?.abort();
+  const authorization = new AbortController();
+  liveInputAuthorization = authorization;
   const visible = !!recorder.toolbar && !recorder.toolbar.isDestroyed();
   const preferences = settings.recording;
   const recording = !!capture?.active;
@@ -239,6 +245,8 @@ async function syncLiveInputs({ force = false } = {}) {
     }
     const microphoneMenu = recorder.popoverRequest?.data.kind === "microphone";
     const microphones = !quitting && !activityStarting && visible ? (microphoneMenu ? "all" : preferences.microphone ? "selected" : "none") : "none";
+    await mediaPermissions.request({ camera, microphone: microphones !== "none" }, { signal: authorization.signal });
+    if (quitting || generation !== liveInputGeneration || authorization.signal.aborted) return;
     await liveInputsReady().configure({ camera, cameraDeviceID: preferences.cameraDeviceID, microphones, microphoneDeviceID: microphones === "selected" ? preferences.microphoneDeviceID : null }, { force });
   } catch (error) { if (!quitting && generation === liveInputGeneration) reportInputError(error); }
 }
@@ -349,6 +357,7 @@ async function captureReady() {
         ffprobe: found.ffprobe,
         grants,
         excludeProcessID: process.pid,
+        requestMediaAccess: (inputs, options) => mediaPermissions.request(inputs, options),
         onReady: () => {
           setRecordingTray(true);
           mainWindow?.hide();
@@ -825,6 +834,7 @@ function installIPC() {
   handle("reva:record-start", (options) =>
     startActivity(async () => {
       liveInputGeneration++;
+      liveInputAuthorization?.abort();
       recordingMenuGeneration++;
       sourceRequestGeneration++;
       recorder.closePopover();
@@ -838,6 +848,7 @@ function installIPC() {
       }
       catch (error) {
         capturePreferences = null; recorder.toolbar?.show();
+        if (!capture?.active) recorder.setState({ status: "idle" });
         if (!capture?.active) await desktopIcons.restore().catch(report);
         if (error?.code === "screen_permission_denied") {
           // A rejected readiness promise precedes child close. Do not offer a
@@ -1334,6 +1345,7 @@ app.on("before-quit", (event) => {
   if (quitting) return;
   quitting = true;
   liveInputGeneration++;
+  liveInputAuthorization?.abort();
   recordingMenuGeneration++;
   recorder.dispose();
   cropEditor.dispose();

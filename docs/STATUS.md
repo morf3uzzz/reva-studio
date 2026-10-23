@@ -5,7 +5,7 @@ establish complete hardware, UI or algorithm parity with another product.
 
 ## Verified for this release
 
-- TypeScript/Vite build; 476 automated editor/backend tests: 475 passed,
+- TypeScript/Vite build; 481 automated editor/backend tests: 480 passed,
   one optional Vision hardware integration check skipped.
 - Native permission response parsing, including the actual CoreGraphics
   `keyboard: "not-granted"` response. The absence of Input Monitoring does not
@@ -31,6 +31,9 @@ establish complete hardware, UI or algorithm parity with another product.
 - Source selection uses the actual native client frame after macOS menu-bar
   repositioning. Window hit testing and region selection share that coordinate map.
   The active recorder is 160×36 points; EN/RU controls and a 24-hour timer fit.
+- Camera/microphone authorization is requested by the app before timed native
+  workers start. Waiting for the OS response has no worker-readiness deadline;
+  stop/discard/quit cancel admission and late consent cannot revive a canceled job.
 - Camera-dependent left tools, hover insertion, mask preview focus, range-only camera
   edits, animation cards and the preset action popover have component integration checks.
 - Real Web Audio/React checks on an operator-owned speech WAV exercised slow, fast and

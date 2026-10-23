@@ -106,6 +106,7 @@ export default function CameraInspector({ project, update, processing, notify, o
   const labels = ["Top left", "Top center", "Top right", "Center left", "Center", "Center right", "Bottom left", "Bottom center", "Bottom right"];
   return <div className="camera-layout-settings">
     <Toggle label="Hide camera" value={a.cameraHidden} onChange={value => set("cameraHidden", value)} />
+    <hr />
     <h3>{t("Default layout")}</h3>
     <CameraLayoutCards defaults value={settings.type} wallpaper={a.wallpaper} onChange={type => {
       if (type === "screen-only" || type === "fullscreen-camera") return;

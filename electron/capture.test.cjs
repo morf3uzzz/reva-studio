@@ -9,6 +9,7 @@ const path = require("node:path");
 const os = require("node:os");
 const { Capture, parseSources, parseDevices } = require("./capture.cjs");
 const { MediaGrants, runProcess } = require("./media.cjs");
+const { CaptureMediaPermissions } = require("./capture-permissions.cjs");
 
 const ffmpeg = ["/opt/homebrew/bin/ffmpeg", "/usr/local/bin/ffmpeg", "/usr/bin/ffmpeg"].find(existsSync);
 const ffprobe = ["/opt/homebrew/bin/ffprobe", "/usr/local/bin/ffprobe", "/usr/bin/ffprobe"].find(existsSync);
@@ -29,7 +30,7 @@ test.before(async () => {
 });
 test.after(async () => { if (templates) await fs.rm(templates, { recursive: true, force: true }); });
 
-async function fixture(t, mode = "normal") {
+async function fixture(t, mode = "normal", captureOptions = {}) {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), "reva-capture-wrapper-"));
   const helper = path.join(directory, "helper.cjs"), log = path.join(directory, "calls.jsonl"), devicesFile = path.join(directory, "devices.json"), marker = path.join(directory, "devices-started");
   await fs.writeFile(devicesFile, JSON.stringify(devices));
@@ -66,11 +67,38 @@ if (args[0] === 'list-devices') {
   });
 }
 `, { mode: 0o700 });
-  const capture = new Capture({ helper, recordingRoot: path.join(directory, "recordings"), ffprobe, grants: new MediaGrants(), excludeProcessID: 12345 });
+  const capture = new Capture({ helper, recordingRoot: path.join(directory, "recordings"), ffprobe, grants: new MediaGrants(), excludeProcessID: 12345, ...captureOptions });
   t.after(async () => { try { await capture.dispose(); } finally { await fs.rm(directory, { recursive: true, force: true }); } });
   const calls = async () => (await fs.readFile(log, "utf8")).trim().split("\n").filter(Boolean).map(line => JSON.parse(line));
   return { capture, calls, directory, devicesFile, marker };
 }
+
+test("recorder authorization precedes native startup and survives cancellation plus a late grant", mediaTest, async t => {
+  for (const operation of ["stop", "discard", "dispose"]) {
+    let answer, requested;
+    const entered = new Promise(resolve => { requested = resolve; });
+    let status = "not-determined";
+    const permissions = new CaptureMediaPermissions({ platform: "darwin", systemPreferences: {
+      getMediaAccessStatus: () => status,
+      askForMediaAccess: () => { requested(); return new Promise(resolve => { answer = value => { status = "granted"; resolve(value); }; }); },
+    } });
+    const f = await fixture(t, "normal", { requestMediaAccess: (input, options) => permissions.request(input, options) });
+    const starting = assert.rejects(f.capture.start(options()), /startup was cancelled/);
+    await entered;
+    assert.equal((await f.calls()).some(args => args[0] === "record"), false);
+    assert.equal(existsSync(path.join(f.directory, "recordings")), false, "no recording directory is allocated before consent");
+    await f.capture[operation]();
+    await starting;
+    answer(true);
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal((await f.calls()).some(args => args[0] === "record"), false, "late permission cannot start a canceled recorder");
+    if (operation !== "dispose") {
+      await f.capture.start(options());
+      assert.equal((await f.calls()).filter(args => args[0] === "record").length, 1);
+      await f.capture.stop();
+    }
+  }
+});
 
 test("capture source metadata preserves negative global positions, fractional bounds and window stacking", () => {
   const window = { id: "window:22", name: "Window", kind: "window", width: 800, height: 600, bounds: { x: -500.5, y: 42.25, width: 800.5, height: 600.25 }, ownerPID: 42, zIndex: 0 };

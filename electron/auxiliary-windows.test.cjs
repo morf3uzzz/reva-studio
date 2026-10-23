@@ -116,10 +116,10 @@ async function openRecorder(owner, windows) {
   return window;
 }
 
-function mainFixture(t) {
+function mainFixture(t, mediaAccess = {}) {
   const f = fixture(), handlers = new Map(), configurations = [], menus = [], external = [], app = new EventEmitter();
   Object.assign(app, { setName() {}, setPath() {}, getPath: name => `/controlled-reva-test/${name}`, whenReady: () => new Promise(() => {}), isPackaged: true });
-  const electron = { app, ...f.dependencies, shell: { openExternal: async value => external.push(value) }, protocol: { registerSchemesAsPrivileged() {} }, ipcMain: { handle: (name, handler) => handlers.set(name, handler), on() {} }, Menu: { buildFromTemplate: template => ({ popup: options => menus.push({ template, options }) }) } };
+  const electron = { app, ...f.dependencies, systemPreferences: { getMediaAccessStatus: () => "granted", askForMediaAccess: async () => true, ...mediaAccess }, shell: { openExternal: async value => external.push(value) }, protocol: { registerSchemesAsPrivileged() {} }, ipcMain: { handle: (name, handler) => handlers.set(name, handler), on() {} }, Menu: { buildFromTemplate: template => ({ popup: options => menus.push({ template, options }) }) } };
   class ControlledLiveInputs {
     configure(options) { configurations.push(options); return Promise.resolve(); }
     stop() { return Promise.resolve(); }
@@ -129,7 +129,7 @@ function mainFixture(t) {
   editor.webContents.mainFrame.url = "reva-app://app/index.html";
   const context = {
     require: name => name === "electron" ? electron : name === "./live-inputs.cjs" ? { LiveInputs: ControlledLiveInputs } : require(name.startsWith(".") ? path.join(__dirname, name) : name),
-    __dirname, process: { platform: "darwin", env: {} }, console, Buffer, URL, setImmediate, setTimeout, clearTimeout, testEditor: editor,
+    __dirname, process: { platform: "darwin", env: {} }, console, Buffer, URL, AbortController, setImmediate, setTimeout, clearTimeout, testEditor: editor,
   };
   // Load the actual registrations and trust boundary without Electron startup,
   // native capture, disk settings writes, or exposing new production hooks.
@@ -302,6 +302,30 @@ test("main input synchronization cannot reapply stale preferences after awaited 
   assert.equal(f.configurations[0].camera, false);
   assert.equal(f.configurations[0].cameraDeviceID, "camera:current");
   assert.equal(f.configurations[0].microphones, "none");
+});
+
+test("main waits for OS media consent before starting a monitor and ignores a late canceled grant", async t => {
+  const approval = deferred(), requests = [];
+  let status = "not-determined";
+  const f = mainFixture(t, { getMediaAccessStatus: () => status, askForMediaAccess: kind => { requests.push(kind); return approval.promise; } });
+  await openRecorder(f.recorder, f.windows);
+  f.settings.recording = { ...f.settings.recording, camera: false, microphone: true };
+  const pending = f.syncLiveInputs();
+  await flush();
+  assert.deepEqual(requests, ["microphone"]);
+  assert.equal(f.configurations.length, 0, "no timed native monitor waits on a system dialog");
+  f.settings.recording = { ...f.settings.recording, microphone: false };
+  await f.syncLiveInputs();
+  await pending;
+  assert.equal(f.configurations.length, 1);
+  assert.equal(f.configurations[0].microphones, "none");
+  status = "granted"; approval.resolve(true);
+  await flush();
+  assert.equal(f.configurations.length, 1, "late consent cannot re-enable an input the user disabled");
+  f.settings.recording = { ...f.settings.recording, microphone: true };
+  await f.syncLiveInputs();
+  assert.equal(f.configurations.at(-1).microphones, "selected");
+  assert.deepEqual(requests, ["microphone"], "a granted permission does not open a second dialog");
 });
 
 test("a source query finishing after recorder replacement cannot open a stale picker", async t => {

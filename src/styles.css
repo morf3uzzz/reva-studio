@@ -1194,7 +1194,7 @@ details[open] > summary > .disclosure-chevron .reference-symbol { transform: rot
 }
 .camera-layout-settings > .toggle-field:first-child { margin-top: 0; }
 .camera-layout-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.camera-layout-card { border: 0; background: none; padding: 0; text-align: left; color: #74747a; font-size: 12px; line-height: 1.3; }
+.camera-layout-card { display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; border: 0; background: none; padding: 0; text-align: left; color: #74747a; font-size: 12px; line-height: 1.3; }
 .camera-layout-card > span:last-child { display: block; margin-top: 8px; }
 .camera-layout-thumbnail { width: 100%; aspect-ratio: 4 / 3; display: block; position: relative; background-size: cover; background-position: center; border-radius: 13px; }
 .camera-layout-card.selected .camera-layout-thumbnail { outline: 2px solid #ffffff99; outline-offset: 2px; }

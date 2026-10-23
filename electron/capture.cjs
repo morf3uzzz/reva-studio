@@ -108,6 +108,7 @@ class Capture {
     exitTimeoutMs = 2000,
     stateTimeoutMs = 5000,
     excludeProcessID = null,
+    requestMediaAccess = async () => {},
   }) {
     Object.assign(this, {
       helper,
@@ -121,13 +122,14 @@ class Capture {
       onInputLevels,
       onCameraFrame,
       onInputError,
-      onState, spawnProcess, stopTimeoutMs, killTimeoutMs, exitTimeoutMs, stateTimeoutMs,
+      onState, spawnProcess, stopTimeoutMs, killTimeoutMs, exitTimeoutMs, stateTimeoutMs, requestMediaAccess,
     });
     this.excludeProcessID = excludeProcessID === null ? null : integer(excludeProcessID, 1, 2147483647, "Excluded process ID");
     this.session = null;
     this.starting = false;
     this.abortStarting = false;
     this.startingDone = null;
+    this.startingAuthorization = null;
     this.disposed = false;
     this.restarting = null;
   }
@@ -178,6 +180,8 @@ class Capture {
     this.starting = true;
     let finishStarting;
     this.startingDone = new Promise(resolve => { finishStarting = resolve; });
+    const authorization = new AbortController();
+    this.startingAuthorization = authorization;
     try {
       const o = object(input, "Capture options");
       const requested = object(o.source, "Capture source");
@@ -229,6 +233,8 @@ class Capture {
             "The recording area must fit inside the selected source.",
           );
       }
+      await this.requestMediaAccess({ camera, microphone }, { signal: authorization.signal });
+      if (this.abortStarting) throw new Error("Recording startup was cancelled.");
       await fs.mkdir(this.recordingRoot, { recursive: true, mode: 0o700 });
       const directory = await fs.mkdtemp(
         path.join(this.recordingRoot, "Recording-"),
@@ -466,6 +472,7 @@ class Capture {
       this.starting = false;
       this.abortStarting = false;
       this.startingDone = null;
+      this.startingAuthorization = null;
       finishStarting();
     }
   }
@@ -598,7 +605,13 @@ class Capture {
   }
   async stop() {
     const s = this.session;
-    if (!s) throw new Error("No recording is active.");
+    if (!s) {
+      if (!this.starting) throw new Error("No recording is active.");
+      this.abortStarting = true;
+      this.startingAuthorization?.abort();
+      await this.startingDone;
+      return;
+    }
     this.requestStop(s);
     await this.awaitClose(s);
     return s.resultPromise;
@@ -657,6 +670,7 @@ class Capture {
   async discard() {
     if (this.restarting) this.restarting.cancelled = true;
     this.abortStarting = this.starting;
+    this.startingAuthorization?.abort();
     const starting = this.startingDone, s = this.session;
     if (s) await this.discardSession(s);
     if (starting) await starting;
@@ -692,6 +706,7 @@ class Capture {
     if (this.restarting) this.restarting.cancelled = true;
     const starting = this.startingDone;
     this.abortStarting = this.starting;
+    this.startingAuthorization?.abort();
     try { if (this.session) await this.stop(); }
     finally { if (starting) await starting; }
   }
